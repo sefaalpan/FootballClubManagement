@@ -105,6 +105,9 @@ export class RegisterComponent implements OnInit {
       }
     }
 
+    //test pour git
+    //ijeiijeieji,psx,,ep
+    //,cinonceo
 
     // let user: User;
     // let nom = this.registerForm.get('nom')?.value
