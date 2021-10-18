@@ -1,0 +1,69 @@
+<div>
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+        <div>
+
+            <label>Role</label>
+            <select formControlName="role">
+                <option value="president">Président</option>
+                <option value="coach">Coach</option>
+                <option value="joueur">Joueur</option>
+            </select>
+        </div>
+
+        <div *ngIf="registerForm.get('role')?.dirty">
+
+
+            <div>
+
+                <label>Nom</label>
+                <input type="text" formControlName="nom">
+            </div>
+            <div>
+
+                <label>Prénom</label>
+                <input type="text" formControlName="prenom">
+            </div>
+            <div>
+
+                <label>Date de naissance</label>
+                <input type="date" formControlName="date">
+            </div>
+            <div>
+
+                <label>Email</label>
+                <input type="text" formControlName="email">
+            </div>
+            <div>
+
+                <label>Password</label>
+                <input type="password" formControlName="password">
+            </div>
+            <div>
+
+                <label>Confirmation password</label>
+                <input type="password" formControlName="password2">
+            </div>
+
+            <div *ngIf="registerForm.get('role')?.value === 'coach'">
+                <label>Statut</label>
+                <select formControlName='coachStatut' required>
+                    <option value="principal">Principal</option>
+                    <option value="adjoint">Adjoint</option>
+                </select>
+            </div>
+
+            <div *ngIf="registerForm.get('role')?.value === 'joueur'">
+                <label>Poste</label>
+                <select formControlName="joueurPoste" required>
+                    <option *ngFor='let poste of postes; let i = index' value="{{i+1}}">
+                        {{poste}}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="S'enregistrer" [disabled]="(!registerForm.valid) 
+                || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,16 @@
+<div>
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <label>E-mail</label>
+        <input type="text" formControlName="email" />
+
+        <label>Password</label>
+        <input type="password" formControlName="password" />
+
+        <input type="submit" value="Se connecter" [disabled]="!loginForm.valid">
+    </form>
+
+    <p *ngIf='user.id > 0'>
+        kikou
+        hello {{user.email}}
+    </p>
+</div>

@@ -1,0 +1,63 @@
+{
+  "presidents": [
+    {
+      "id": 1,
+      "nom": "Ye",
+      "prenom": "Xiao",
+      "naissance": "1997-07-28",
+      "email": "ye@email",
+      "password": "9003d1df22eb4d3820015070385194c8"
+    },
+    {
+      "email": "as@as",
+      "naissance": "1111-11-11",
+      "nom": "as",
+      "prenom": "as",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "id": 2
+    }
+  ],
+  "coachs": [
+    {
+      "id": 1,
+      "nom": "Carpentier",
+      "prenom": "Jacques",
+      "naissance": "1968-03-17",
+      "email": "jc@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "statut": "principal"
+    }
+  ],
+  "joueurs": [
+    {
+      "id": 1,
+      "nom": "Ter Stegen",
+      "prenom": "Marc-André",
+      "naissance": "1992-04-30",
+      "email": "ts@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "poste": "1",
+      "isBlesse": false
+    },
+    {
+      "id": 2,
+      "nom": "Messi",
+      "prenom": "Lionel",
+      "naissance": "1987-06-24",
+      "email": "lm@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "poste": "10",
+      "isBlesse": false
+    },
+    {
+      "nom": "ronaldo",
+      "prenom": "nazario",
+      "naissance": "1998-10-01",
+      "email": "ronaldo@email",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "poste": "9",
+      "isBlesse": false,
+      "id": 3
+    }
+  ]
+}
