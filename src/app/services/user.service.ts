@@ -2,66 +2,80 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Coach, Joueur, President } from '../models/iuser.model';
+import { Coach, Joueur, President, User } from '../models/iuser.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private presidentsEndUrl : string = environment.url+'presidents/';
-  private coachEndUrl : string = environment.url+'coachs/';
-  private joueursEndUrl : string = environment.url+'joueurs/';
+  private currentUser !: User;
 
-  constructor(private httpclient : HttpClient) { }
+  private presidentsEndUrl: string = environment.url + 'presidents/';
+  private coachEndUrl: string = environment.url + 'coachs/';
+  private joueursEndUrl: string = environment.url + 'joueurs/';
 
-  getPresidents() : Observable<President[]> {
+  constructor(private httpclient: HttpClient) { }
+
+  getPresidents(): Observable<President[]> {
     return this.httpclient.get<President[]>(this.presidentsEndUrl);
   }
-  getPresidentById(id:number) : Observable<President>{
-    return this.httpclient.get<President>(this.presidentsEndUrl+id);
+  getPresidentById(id: number): Observable<President> {
+    return this.httpclient.get<President>(this.presidentsEndUrl + id);
   }
-  addPresident(president : President) : Observable<void> {
+  addPresident(president: President): Observable<void> {
     return this.httpclient.post<void>(this.presidentsEndUrl, president);
   }
-  updatePresident(id:number,president : President) : Observable<void>{
-    return this.httpclient.put<void>(this.presidentsEndUrl+id, president);
+  updatePresident(id: number, president: President): Observable<void> {
+    return this.httpclient.put<void>(this.presidentsEndUrl + id, president);
   }
-  deletePresident(id:number) : Observable<void>{
-    return this.httpclient.delete<void>(this.presidentsEndUrl+id);
-  } 
+  deletePresident(id: number): Observable<void> {
+    return this.httpclient.delete<void>(this.presidentsEndUrl + id);
+  }
 
-  getCoachs() : Observable<Coach[]> {
+  getCoachs(): Observable<Coach[]> {
     return this.httpclient.get<Coach[]>(this.coachEndUrl);
   }
-  getCoachById(id:number) : Observable<Coach>{
-    return this.httpclient.get<Coach>(this.coachEndUrl+id);
+  getCoachById(id: number): Observable<Coach> {
+    return this.httpclient.get<Coach>(this.coachEndUrl + id);
   }
-  addCoach(coach : Coach) : Observable<void> {
+  addCoach(coach: Coach): Observable<void> {
     return this.httpclient.post<void>(this.coachEndUrl, coach);
   }
-  updateCoach (id:number,coach: Coach) : Observable<void>{
-    return this.httpclient.put<void>(this.coachEndUrl+id, coach);
+  updateCoach(id: number, coach: Coach): Observable<void> {
+    return this.httpclient.put<void>(this.coachEndUrl + id, coach);
   }
-  deleteCoach(id:number) : Observable<void>{
-    return this.httpclient.delete<void>(this.coachEndUrl+id);
-  } 
+  deleteCoach(id: number): Observable<void> {
+    return this.httpclient.delete<void>(this.coachEndUrl + id);
+  }
 
-  getJoueurs() : Observable<Joueur[]> {
+  getJoueurs(): Observable<Joueur[]> {
     return this.httpclient.get<Joueur[]>(this.joueursEndUrl);
   }
-  getJoueurById(id:number) : Observable<Joueur>{
-    return this.httpclient.get<Joueur>(this.joueursEndUrl+id);
+  getJoueurById(id: number): Observable<Joueur> {
+    return this.httpclient.get<Joueur>(this.joueursEndUrl + id);
   }
-  addJoueur(joueur : Joueur) : Observable<void> {
+  addJoueur(joueur: Joueur): Observable<void> {
     return this.httpclient.post<void>(this.joueursEndUrl, joueur);
   }
-  updateJoueur (id:number,joueur: Joueur) : Observable<void>{
-    return this.httpclient.put<void>(this.joueursEndUrl+id, joueur);
+  updateJoueur(id: number, joueur: Joueur): Observable<void> {
+    return this.httpclient.put<void>(this.joueursEndUrl + id, joueur);
   }
-  deleteJoueur(id:number) : Observable<void>{
-    return this.httpclient.delete<void>(this.joueursEndUrl+id);
-  } 
+  deleteJoueur(id: number): Observable<void> {
+    return this.httpclient.delete<void>(this.joueursEndUrl + id);
+  }
+
+  login(user: User): void {
+    console.log(user);
+    
+    this.currentUser = user;
+    console.log(this.currentUser);
+  }
+
+  getCurrentUser(): User {
+    return this.currentUser;
+    
+  }
 
 
 

@@ -18,8 +18,8 @@ export class UsersService {
   
 
   constructor(private httpclient : HttpClient) {
-    this.users.push(this.president);
-    console.log(this.president);
+    // this.users.push(this.president);
+    // console.log(this.president);
   }
 
   getCurrentUser(): User {
@@ -60,7 +60,6 @@ export class UsersService {
   
 
   login(email: string, password: string): User {
-    console.log(this.users.length);
     let u = new President('', '', new Date(), '', '');
     u.id = -1;
 

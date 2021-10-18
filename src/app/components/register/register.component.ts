@@ -52,23 +52,18 @@ export class RegisterComponent implements OnInit {
 
       switch (role) {
         case 'president':
-          let p : President = {};
+          let p: President = {};
           p.nom = this.registerForm.get('nom')?.value;
           p.prenom = this.registerForm.get('prenom')?.value;
           p.naissance = this.registerForm.get('date')?.value;
           p.email = this.registerForm.get('email')?.value;
           p.password = password;
-        
-          this.us.addPresident(p)
-            .pipe(
-              mergeMap((presidents) => this.us.getPresidents())
-            )
-            .subscribe((presidents) => {
-              presidents.forEach(p => console.log(p))
-            });
+
+          this.us.addPresident(p);
+          this.us.login(p);
           break;
         case 'coach':
-          let c : Coach = {};
+          let c: Coach = {};
           c.nom = this.registerForm.get('nom')?.value;
           c.prenom = this.registerForm.get('prenom')?.value;
           c.naissance = this.registerForm.get('date')?.value;
@@ -76,15 +71,12 @@ export class RegisterComponent implements OnInit {
           c.password = password;
           c.statut = this.registerForm.get('coachStatut')?.value;
 
-          this.us.addCoach(c).pipe(
-            mergeMap((coachs) => this.us.getCoachs())
-          )
-          .subscribe((coachs) => {
-            coachs.forEach(c => console.log(c))
-          });
+          this.us.addCoach(c);
+          this.us.login(c);
           break;
         case 'joueur':
-          let j : Joueur = {};
+          let j: Joueur = {};
+
           j.nom = this.registerForm.get('nom')?.value;
           j.prenom = this.registerForm.get('prenom')?.value;
           j.naissance = this.registerForm.get('date')?.value;
@@ -93,17 +85,17 @@ export class RegisterComponent implements OnInit {
           j.poste = this.registerForm.get('joueurPoste')?.value;
           j.isBlesse = false;
 
-          this.us.addJoueur(j).pipe(
-            mergeMap((joueurs) => this.us.getJoueurs())
-          )
-          .subscribe((joueurs) => {
-            joueurs.forEach(j => console.log(j))
-          });
+          this.us.addJoueur(j);
+          this.us.login(j);
           break;
         default: console.log("error user role");
           break
       }
+      this.registerForm.reset();
+      this.router.navigate(['home'])
+      
     }
+
 
     //test pour git
     //ijeiijeieji,psx,,ep

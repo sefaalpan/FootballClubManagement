@@ -9,11 +9,11 @@
       "password": "9003d1df22eb4d3820015070385194c8"
     },
     {
-      "email": "as@as",
-      "naissance": "1111-11-11",
-      "nom": "as",
-      "prenom": "as",
-      "password": "9003d1df22eb4d3820015070385194c8",
+      "nom": "Momo",
+      "prenom": "Momo",
+      "naissance": "1861-11-19",
+      "email": "m@ma",
+      "password": "b74df323e3939b563635a2cba7a7afba",
       "id": 2
     }
   ],
@@ -26,6 +26,15 @@
       "email": "jc@email",
       "password": "9003d1df22eb4d3820015070385194c8",
       "statut": "principal"
+    },
+    {
+      "nom": "co",
+      "prenom": "co",
+      "naissance": "1999-10-19",
+      "email": "co@co",
+      "password": "ac0ddf9e65d57b6a56b2453386cd5db5",
+      "statut": "principal",
+      "id": 2
     }
   ],
   "joueurs": [
