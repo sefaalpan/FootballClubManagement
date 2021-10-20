@@ -12,6 +12,14 @@ import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
 import { ClubComponent } from './components/club/club.component';
 import { PresidentComponent } from './components/president/president.component';
+import { UserService } from './services/user.service';
+import { AuthGuard } from './guards/auth.guard';
+import { PresidentGuard } from './guards/president.guard';
+import { GestionJoueursComponent } from './components/president/gestion-joueurs/gestion-joueurs.component';
+import { GestionCoachsComponent } from './components/president/gestion-coachs/gestion-coachs.component';
+import { GestionEquipesComponent } from './components/president/gestion-equipes/gestion-equipes.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { CreateClubComponent } from './components/create-club/create-club.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +29,12 @@ import { PresidentComponent } from './components/president/president.component';
     NavComponent,
     HomeComponent,
     ClubComponent,
-    PresidentComponent
+    PresidentComponent,
+    GestionJoueursComponent,
+    GestionCoachsComponent,
+    GestionEquipesComponent,
+    SignUpComponent,
+    CreateClubComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +43,7 @@ import { PresidentComponent } from './components/president/president.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [UserService, AuthGuard, PresidentGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

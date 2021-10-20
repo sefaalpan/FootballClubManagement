@@ -1,7 +1,13 @@
 <div>
     <form [formGroup]="registerForm" (ngSubmit)="submit()">
         <div>
+            <label>Choisissez votre club</label>
+            <select formControlName="club">
+                <option *ngFor="let club of clubs" value="{{club.id}}">{{club.nom}}</option>
+            </select>   
+        </div>
 
+        <div *ngIf="registerForm.get('club')?.dirty">
             <label>Role</label>
             <select formControlName="role">
                 <option value="president">Président</option>

@@ -1,3 +1,4 @@
-export class Equipe {
-    categorie !: string;
+export interface Equipe {
+    categorie: string;
+    club_id: string;
 }

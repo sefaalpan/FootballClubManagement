@@ -9,10 +9,17 @@ import { UserService } from './user.service';
 })
 export class AuthService{
 
-  private users : User[] = [];
   private connectedUser !: User;
 
   constructor(private us : UserService) { }
+
+  loginUser(user:User){
+    this.connectedUser=user;
+  }
+  
+  loggedIn(){
+      return !!localStorage.getItem('token');
+  }
 
   
   

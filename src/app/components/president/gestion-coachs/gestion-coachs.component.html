@@ -1,0 +1,120 @@
+<p>gestion-coachs works!</p>
+<button routerLink="/president">
+    Revenir sur la page Président
+</button>
+<div>
+
+    <button (click)="activForm=!activForm">
+        <span *ngIf="!activForm">
+            Ajouter un coach
+        </span>
+        <span *ngIf="activForm">
+            Revenir sur la liste de coachs
+        </span>
+    </button>
+</div>
+
+<table *ngIf="!activForm">
+    <caption>Gérer les coachs</caption>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Statut</th>
+        <th colspan="2">Actions</th>
+    </tr>
+
+    <tr *ngFor="let coach of coachs">
+        <td>{{coach.id}}</td>
+        <td>{{coach.nom}}</td>
+        <td>{{coach.prenom}}</td>
+        <td>{{coach.statut}}</td>
+        <td>
+            <button (click)="supprimer(coach.id)">X</button>
+        </td>
+        <td>
+            <button (click)="activEditForm=!activEditForm;editer(coach.id ?? -1)">Edit</button>
+        </td>
+
+    </tr>
+</table>
+
+
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
+        
+        <div>
+
+            <div>
+                <label>Nom</label>
+                <input type="text" formControlName="nom">
+            </div>
+            <div>
+                <label>Prénom</label>
+                <input type="text" formControlName="prenom">
+            </div>
+            <div>
+                <label>Date de naissance</label>
+                <input type="date" formControlName="date">
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="text" formControlName="email">
+            </div>
+            <div>
+                <label>Password</label>
+                <input type="password" formControlName="password">
+            </div>
+            <div>
+                <label>Confirmation password</label>
+                <input type="password" formControlName="password2">
+            </div>
+
+            <div>
+                <label>Statut</label>
+                <select formControlName='statut' required>
+                    <option value="principal">Principal</option>
+                    <option value="adjoint">Adjoint</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Ajouter" [disabled]="(!registerForm.valid) 
+                || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
+            </div>
+        </div>
+    </form>
+
+    <form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
+        
+        <div>
+
+            <div>
+                <label>Nom</label>
+                <input type="text" formControlName="nom">
+            </div>
+            <div>
+                <label>Prénom</label>
+                <input type="text" formControlName="prenom">
+            </div>
+            <div>
+                <label>Date de naissance</label>
+                <input type="date" formControlName="date">
+            </div>
+            <div>
+                <label>Email</label>
+                <input type="text" formControlName="email">
+            </div>
+
+            <div>
+                <label>Statut</label>
+                <select formControlName='statut' >
+                    <option value="principal">Principal</option>
+                    <option value="adjoint">Adjoint</option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+            </div>
+        </div>
+    </form>
+

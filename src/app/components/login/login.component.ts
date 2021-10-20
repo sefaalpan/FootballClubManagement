@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import md5 from 'md5-ts';
-import { User } from 'src/app/models/users.model';
-import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/models/iuser.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +15,10 @@ export class LoginComponent implements OnInit {
   user !: User;
   loginForm: FormGroup = new FormGroup({});
 
-  constructor(private fb: FormBuilder, private userService: UsersService,
-    private router: Router) {
+  constructor(private fb: FormBuilder, 
+    private us: UserService,
+    private router: Router) 
+    {
     this.loginForm = this.fb.group({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
@@ -30,12 +32,12 @@ export class LoginComponent implements OnInit {
     let email = this.loginForm.get("email")?.value;
     let password = this.loginForm.get("password")?.value;
     password = md5(password);
-    console.log(password);
 
-    this.user = this.userService.login(email, password);
+    this.user = this.us.login(email, password);
     console.log(this.user);
 
-    if (this.user.id > 0) {
+
+    if (this.user) {
       this.router.navigate(['home'])
     }
 

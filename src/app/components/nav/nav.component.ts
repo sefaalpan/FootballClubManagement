@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  isConnected = this.us.loggedIn();
+
+  constructor(private router : Router, private us : UserService) { }
 
   ngOnInit(): void {
+    console.log(this.isConnected);   
+  }
+
+  deconnexion(){
+    this.isConnected = !this.isConnected;
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
+
   }
 
 }

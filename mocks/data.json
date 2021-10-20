@@ -1,72 +1,209 @@
 {
   "presidents": [
     {
-      "id": 1,
-      "nom": "Ye",
+      "nom": "Yee",
       "prenom": "Xiao",
-      "naissance": "1997-07-28",
-      "email": "ye@email",
-      "password": "9003d1df22eb4d3820015070385194c8"
+      "naissance": "1997-08-08",
+      "email": "yee@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "discriminator": "president",
+      "id": 1,
+      "club_id": 1
     },
     {
-      "nom": "Momo",
+      "nom": "Takir",
       "prenom": "Momo",
-      "naissance": "1861-11-19",
-      "email": "m@ma",
-      "password": "b74df323e3939b563635a2cba7a7afba",
+      "naissance": "1986-02-18",
+      "email": "tk@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "discriminator": "president",
       "id": 2
+    },
+    {
+      "nom": "Nv",
+      "prenom": "President",
+      "naissance": "1111-10-10",
+      "email": "nv@nvn",
+      "password": "83878c91171338902e0fe0fb97a8c47a",
+      "discriminator": "president",
+      "id": 3
+    },
+    {
+      "nom": "Presi",
+      "prenom": "Dent",
+      "date": "1111-11-10",
+      "email": "P@P",
+      "password": "p",
+      "password2": "p",
+      "role": "president",
+      "club": "mat02",
+      "id": 4
+    },
+    {
+      "nom": "a",
+      "prenom": "a",
+      "naissance": "2000-02-20",
+      "email": "a@a",
+      "password": "4b9411a9b28f9063ea75e5fee24bb2a8",
+      "role": "president",
+      "id": 5
+    },
+    {
+      "nom": "bb",
+      "prenom": "bb",
+      "naissance": "0199-10-10",
+      "email": "bb@bb",
+      "password": "4b923f72179844a40ea49e2f08370b4b",
+      "role": "president",
+      "id": 6
+    },
+    {
+      "nom": "h",
+      "prenom": "h",
+      "naissance": "9999-09-09",
+      "email": "h@hh",
+      "password": "85836fcc90e66be6b8b59ad433aa41e2",
+      "role": "president",
+      "id": 7
+    },
+    {
+      "nom": "caca",
+      "prenom": "caca",
+      "naissance": "1999-01-01",
+      "email": "caca@caca",
+      "password": "657f3cbef1266484355943ee08ceee37",
+      "role": "president",
+      "id": 8
+    },
+    {
+      "nom": "bbbb",
+      "prenom": "bbbbbb",
+      "naissance": "0188-12-18",
+      "email": "newemail@email.be",
+      "password": "2ba6f53eab4ccea675af6339adbdbca8",
+      "role": "president",
+      "id": 9
+    },
+    {
+      "nom": "oui",
+      "prenom": "oui",
+      "naissance": "1990-09-18",
+      "email": "oui@oui",
+      "password": "5969b7192b7f1fca941a312d250830e8",
+      "role": "president",
+      "id": 10
     }
   ],
   "coachs": [
     {
-      "id": 1,
       "nom": "Carpentier",
       "prenom": "Jacques",
-      "naissance": "1968-03-17",
+      "naissance": "1011-01-01",
       "email": "jc@email",
       "password": "9003d1df22eb4d3820015070385194c8",
-      "statut": "principal"
+      "statut": "principal",
+      "discriminator": "coach",
+      "id": 1,
+      "club_id": 1
     },
     {
-      "nom": "co",
-      "prenom": "co",
-      "naissance": "1999-10-19",
-      "email": "co@co",
-      "password": "ac0ddf9e65d57b6a56b2453386cd5db5",
+      "nom": "Monsieur",
+      "prenom": "Lecoach",
+      "date": "1990-10-10",
+      "email": "coach@email",
       "statut": "principal",
+      "naissance": "1990-10-10",
+      "password": "47bce5c74f589f4867dbd57e9ca9f808",
+      "club_id": 1,
+      "discriminator": "coach",
       "id": 2
     }
   ],
   "joueurs": [
     {
-      "id": 1,
-      "nom": "Ter Stegen",
-      "prenom": "Marc-André",
-      "naissance": "1992-04-30",
-      "email": "ts@email",
-      "password": "9003d1df22eb4d3820015070385194c8",
-      "poste": "1",
-      "isBlesse": false
-    },
-    {
-      "id": 2,
       "nom": "Messi",
       "prenom": "Lionel",
       "naissance": "1987-06-24",
-      "email": "lm@email",
-      "password": "9003d1df22eb4d3820015070385194c8",
-      "poste": "10",
-      "isBlesse": false
+      "email": "messi@email",
+      "password": "1463ccd2104eeb36769180b8a0c86bb6",
+      "discriminator": "joueur",
+      "club_id": 1,
+      "poste": "10 - Milieu offensif",
+      "isBlesse": false,
+      "id": 1
     },
     {
-      "nom": "ronaldo",
-      "prenom": "nazario",
-      "naissance": "1998-10-01",
-      "email": "ronaldo@email",
-      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
-      "poste": "9",
-      "isBlesse": false,
+      "nom": "Neymar",
+      "prenom": "Junior",
+      "date": "1990-09-19",
+      "email": "jr@email",
+      "poste": "11 - Attaquant Droit",
+      "isBlesse": true,
+      "naissance": "1990-09-19",
+      "password": "d5de679d452cb429e6f55e64a9988cbf",
+      "club_id": 1,
+      "discriminator": "joueur",
+      "id": 2
+    },
+    {
+      "nom": "Ronaldo",
+      "prenom": "Le vrai",
+      "date": "1996-10-04",
+      "poste": "9 - Attaquant en pointe",
+      "isBlesse": true,
+      "naissance": "1996-10-04",
+      "club_id": 1,
+      "discriminator": "joueur",
       "id": 3
+    }
+  ],
+  "clubs": [
+    {
+      "matricule": "mat01",
+      "nom": "Js Roselies",
+      "rue": "rue des français",
+      "numero": "44",
+      "ville": "Roselies",
+      "codepostal": "6250",
+      "id": 1
+    }
+  ],
+  "equipes": [
+    {
+      "categorie": "U13",
+      "club_id": 1
+    },
+    {
+      "categorie": "U15",
+      "club_id": 1
+    },
+    {
+      "categorie": "U17",
+      "club_id": 1
+    },
+    {
+      "categorie": "U19",
+      "club_id": 1
+    },
+    {
+      "categorie": "U21",
+      "club_id": 1
+    },
+    {
+      "categorie": "Première",
+      "club_id": 1
+    },
+    {
+      "categorie": "U19",
+      "club_id": 2
+    },
+    {
+      "categorie": "U21",
+      "club_id": 2
+    },
+    {
+      "categorie": "Première",
+      "club_id": 2
     }
   ]
 }
