@@ -41,7 +41,7 @@ export class InscriptionComponent implements OnInit {
       .pipe(
         finalize(() => console.log(this.president))
       )
-      .subscribe(p => this.president = p);
+      .subscribe(p => this.president = p[0]);
 
 
   }
@@ -71,7 +71,7 @@ export class InscriptionComponent implements OnInit {
         console.log(c);
         console.log(club);
         // console.log(club.id as number);
-        
+        console.log(club);
         
         if (club) {
           console.log('le club existe deja');
@@ -80,21 +80,21 @@ export class InscriptionComponent implements OnInit {
           //le club a-t'il déjà un president
           this.us.getClubPresident(club.id).subscribe(p => {
 
-            president = p;
+            president = p[0] as President;
             console.log(p);
+            console.log(president);
             
-            if (president.id) {
+            if (president) {
               console.log(club + " a deja un prsident " + president);
             }
             else {
-
               //check si le president existe dèjà
               president = {} as President;
               this.us.getPresidentByEmail(email).subscribe(p => {
                 console.log(p);
                 
-                president = p
-                if (president.id) {
+                president = p[0];
+                if (president) {
                   if (president.club_id && president.email) {
                     console.log(president + " a deja un club " + president.club_id);
                   }
@@ -122,7 +122,9 @@ export class InscriptionComponent implements OnInit {
                     //On pourrait rediriger vers login en completant l'input
                     // this.router.navigate(['login', email]);
                     console.log(club + " a maintenant un président " + president);
-                    this.router.navigate(['login']);
+                    console.log(president);
+
+                    this.router.navigate(['login', president.email]);
                   })
                 }
               });
@@ -141,7 +143,7 @@ export class InscriptionComponent implements OnInit {
           //check si le president existe dèjà
           let president!: President;
           this.us.getPresidentByEmail(email).subscribe(p => {
-            president = p
+            president = p[0]
             console.log(president);
 
             if (president.id) {

@@ -11,33 +11,14 @@
       "club_id": 1
     },
     {
-      "nom": "popo",
-      "prenom": "popop",
-      "naissance": "0007-04-07",
-      "email": "popo@poopo",
-      "password": "83878c91171338902e0fe0fb97a8c47a",
+      "nom": "bartom",
+      "prenom": "meuuu",
+      "naissance": "1111-10-10",
+      "email": "bm@m",
+      "password": "6f8f57715090da2632453988d9a1501b",
       "role": "president",
       "club_id": 2,
       "id": 2
-    },
-    {
-      "nom": "a",
-      "prenom": "a",
-      "naissance": "0001-01-01",
-      "email": "a@a",
-      "password": "0cc175b9c0f1b6a831c399e269772661",
-      "role": "president",
-      "id": 3
-    },
-    {
-      "nom": "papa",
-      "prenom": "papa",
-      "naissance": "2020-12-12",
-      "email": "a@a",
-      "password": "0cc175b9c0f1b6a831c399e269772661",
-      "role": "president",
-      "club_id": 2,
-      "id": 4
     }
   ],
   "coachs": [

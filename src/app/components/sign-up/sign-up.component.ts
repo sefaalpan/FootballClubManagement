@@ -40,7 +40,7 @@ export class SignUpComponent implements OnInit {
       .pipe(
         finalize(() => console.log(this.president))
       )
-      .subscribe(p => this.president = p);
+      .subscribe(p => this.president = p[0]);
 
 
   }
@@ -68,7 +68,7 @@ export class SignUpComponent implements OnInit {
 
         let president: President = {};
         //le club a-t'il déjà un president
-        this.us.getClubPresident(club.id).subscribe(p => president = p);
+        this.us.getClubPresident(club.id).subscribe(p => president = p[0]);
         if (president) {
           console.log(club + " a deja un prsident " + president);
         }
@@ -76,7 +76,7 @@ export class SignUpComponent implements OnInit {
 
           //check si le president existe dèjà
           president = {} as President;
-          this.us.getPresidentByEmail(email).subscribe(p => president = p);
+          this.us.getPresidentByEmail(email).subscribe(p => president = p[0]);
           if (president) {
             if (president.club_id) {
               console.log(president + " a deja un club " + president.club_id);
@@ -105,6 +105,8 @@ export class SignUpComponent implements OnInit {
               //On pourrait rediriger vers login en completant l'input
               // this.router.navigate(['login', email]);
               console.log(club + " a maintenant un président " + president);
+              console.log(president);
+              
               this.router.navigate(['login']);
             })
 
@@ -117,7 +119,7 @@ export class SignUpComponent implements OnInit {
         //check si le president existe deja 
         //check si le president existe dèjà
         let president!: President;
-        this.us.getPresidentByEmail(email).subscribe(p => president = p);
+        this.us.getPresidentByEmail(email).subscribe(p => president = p[0]);
         console.log(president);
 
         if (president !== undefined) {

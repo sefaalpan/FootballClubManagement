@@ -36,9 +36,9 @@ export class UserService {
   getPresidentById(id: number): Observable<President> {
     return this.httpclient.get<President>(this.presidentsEndUrl + id);
   }
-  getPresidentByEmail(email: string): Observable<President> {
+  getPresidentByEmail(email: string): Observable<President[]> {
     let emailUrl = "?email="
-    return this.httpclient.get<President>(this.presidentsEndUrl + emailUrl + email);
+    return this.httpclient.get<President[]>(this.presidentsEndUrl + emailUrl + email);
   }
   addPresident(president: President): Observable<President> {
     this.users.push(president);
@@ -56,9 +56,9 @@ export class UserService {
     this.users.splice(id, 1);
     return this.httpclient.delete<void>(this.presidentsEndUrl + id);
   }
-  getClubPresident(club_id: number): Observable<President> {
+  getClubPresident(club_id: number): Observable<President[]> {
     let request = "?club_id="
-    return this.httpclient.get<President>(this.presidentsEndUrl + request + club_id);
+    return this.httpclient.get<President[]>(this.presidentsEndUrl + request + club_id);
   }
 
   getCoachs(): Observable<Coach[]> {
