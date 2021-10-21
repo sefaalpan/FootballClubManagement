@@ -20,12 +20,13 @@ export class ClubService {
     return this.httpclient.get<Club>(this.url+id);
   }
   
-  getClubByMatricule(matricule:string): Observable<Club> {
+  getClubByMatricule(matricule:string): Observable<Club[]> {
     let matriculeParam = "?matricule=";
-    return this.httpclient.get<Club>(this.url+matriculeParam+matricule);
+    return this.httpclient.get<Club[]>(this.url+matriculeParam+matricule);
   }
-  addClub(club : Club) : Observable<void>{
-    return this.httpclient.post<void>(this.url, club);
+  
+  addClub(club : Club) : Observable<Club>{
+    return this.httpclient.post<Club>(this.url, club);
   }
   updateClub(id:number, club:Club) : Observable<void>{
     return this.httpclient.post<void>(this.url+id, club);

@@ -1,5 +1,10 @@
 <div>
     <form [formGroup]="formClub" (ngSubmit)="onSubmit()">
+       
+        <div *ngIf="president">
+            <label>Président</label>
+            <input type="text" disabled [value]="president.email">
+        </div>
         <div>
             <label>Matricule</label>
             <input type="text" formControlName="matricule">

@@ -20,6 +20,8 @@ import { GestionCoachsComponent } from './components/president/gestion-coachs/ge
 import { GestionEquipesComponent } from './components/president/gestion-equipes/gestion-equipes.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CreateClubComponent } from './components/create-club/create-club.component';
+import { IndexComponent } from './index/index.component';
+import { InscriptionComponent } from './components/inscription/inscription.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { CreateClubComponent } from './components/create-club/create-club.compon
     GestionCoachsComponent,
     GestionEquipesComponent,
     SignUpComponent,
-    CreateClubComponent
+    CreateClubComponent,
+    IndexComponent,
+    InscriptionComponent
   ],
   imports: [
     BrowserModule,

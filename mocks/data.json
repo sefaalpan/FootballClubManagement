@@ -6,117 +6,51 @@
       "naissance": "1997-08-08",
       "email": "yee@email",
       "password": "9003d1df22eb4d3820015070385194c8",
-      "discriminator": "president",
+      "role": "president",
       "id": 1,
       "club_id": 1
     },
     {
-      "nom": "Takir",
-      "prenom": "Momo",
-      "naissance": "1986-02-18",
-      "email": "tk@email",
-      "password": "9003d1df22eb4d3820015070385194c8",
-      "discriminator": "president",
-      "id": 2
-    },
-    {
-      "nom": "Nv",
-      "prenom": "President",
-      "naissance": "1111-10-10",
-      "email": "nv@nvn",
+      "nom": "popo",
+      "prenom": "popop",
+      "naissance": "0007-04-07",
+      "email": "popo@poopo",
       "password": "83878c91171338902e0fe0fb97a8c47a",
-      "discriminator": "president",
-      "id": 3
-    },
-    {
-      "nom": "Presi",
-      "prenom": "Dent",
-      "date": "1111-11-10",
-      "email": "P@P",
-      "password": "p",
-      "password2": "p",
       "role": "president",
-      "club": "mat02",
-      "id": 4
+      "club_id": 2,
+      "id": 2
     },
     {
       "nom": "a",
       "prenom": "a",
-      "naissance": "2000-02-20",
+      "naissance": "0001-01-01",
       "email": "a@a",
-      "password": "4b9411a9b28f9063ea75e5fee24bb2a8",
+      "password": "0cc175b9c0f1b6a831c399e269772661",
       "role": "president",
-      "id": 5
+      "id": 3
     },
     {
-      "nom": "bb",
-      "prenom": "bb",
-      "naissance": "0199-10-10",
-      "email": "bb@bb",
-      "password": "4b923f72179844a40ea49e2f08370b4b",
+      "nom": "papa",
+      "prenom": "papa",
+      "naissance": "2020-12-12",
+      "email": "a@a",
+      "password": "0cc175b9c0f1b6a831c399e269772661",
       "role": "president",
-      "id": 6
-    },
-    {
-      "nom": "h",
-      "prenom": "h",
-      "naissance": "9999-09-09",
-      "email": "h@hh",
-      "password": "85836fcc90e66be6b8b59ad433aa41e2",
-      "role": "president",
-      "id": 7
-    },
-    {
-      "nom": "caca",
-      "prenom": "caca",
-      "naissance": "1999-01-01",
-      "email": "caca@caca",
-      "password": "657f3cbef1266484355943ee08ceee37",
-      "role": "president",
-      "id": 8
-    },
-    {
-      "nom": "bbbb",
-      "prenom": "bbbbbb",
-      "naissance": "0188-12-18",
-      "email": "newemail@email.be",
-      "password": "2ba6f53eab4ccea675af6339adbdbca8",
-      "role": "president",
-      "id": 9
-    },
-    {
-      "nom": "oui",
-      "prenom": "oui",
-      "naissance": "1990-09-18",
-      "email": "oui@oui",
-      "password": "5969b7192b7f1fca941a312d250830e8",
-      "role": "president",
-      "id": 10
+      "club_id": 2,
+      "id": 4
     }
   ],
   "coachs": [
     {
-      "nom": "Carpentier",
-      "prenom": "Jacques",
-      "naissance": "1011-01-01",
-      "email": "jc@email",
-      "password": "9003d1df22eb4d3820015070385194c8",
-      "statut": "principal",
-      "discriminator": "coach",
-      "id": 1,
-      "club_id": 1
-    },
-    {
-      "nom": "Monsieur",
-      "prenom": "Lecoach",
-      "date": "1990-10-10",
-      "email": "coach@email",
-      "statut": "principal",
-      "naissance": "1990-10-10",
-      "password": "47bce5c74f589f4867dbd57e9ca9f808",
+      "nom": "Zidane",
+      "prenom": "zz",
+      "naissance": "1980-12-10",
+      "email": "zz@email",
+      "password": "fbade9e36a3f36d3d676c1b808451dd7",
+      "role": "coach",
       "club_id": 1,
-      "discriminator": "coach",
-      "id": 2
+      "statut": "principal",
+      "id": 1
     }
   ],
   "joueurs": [
@@ -160,50 +94,33 @@
   "clubs": [
     {
       "matricule": "mat01",
-      "nom": "Js Roselies",
-      "rue": "rue des français",
-      "numero": "44",
-      "ville": "Roselies",
-      "codepostal": "6250",
+      "nom": "Youngz ",
+      "rue": "Vanhulst",
+      "numero": "18",
+      "ville": "Manage",
+      "codepostal": "5780",
       "id": 1
+    },
+    {
+      "matricule": "mat02",
+      "nom": "Charleroi",
+      "rue": "Grand rue",
+      "numero": "15",
+      "ville": "Charleroi",
+      "codepostal": "6000",
+      "id": 2
     }
   ],
   "equipes": [
     {
-      "categorie": "U13",
-      "club_id": 1
+      "categorie": "u7",
+      "club_id": 1,
+      "id": 1
     },
     {
-      "categorie": "U15",
-      "club_id": 1
-    },
-    {
-      "categorie": "U17",
-      "club_id": 1
-    },
-    {
-      "categorie": "U19",
-      "club_id": 1
-    },
-    {
-      "categorie": "U21",
-      "club_id": 1
-    },
-    {
-      "categorie": "Première",
-      "club_id": 1
-    },
-    {
-      "categorie": "U19",
-      "club_id": 2
-    },
-    {
-      "categorie": "U21",
-      "club_id": 2
-    },
-    {
-      "categorie": "Première",
-      "club_id": 2
+      "categorie": "u5",
+      "club_id": 1,
+      "id": 2
     }
   ]
 }

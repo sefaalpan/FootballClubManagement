@@ -1,0 +1,58 @@
+<table>
+    <caption>Gérer les présidents</caption>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let president of presidents">
+        <td>{{president.id}}</td>
+        <td>{{president.nom}}</td>
+        <td>{{president.prenom}}</td>
+        <td>{{president.email}}</td>
+        <td>
+            <button (click)="supprimer(president.id ?? -1)">X</button>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <caption>Gérer les clubs</caption>
+    <tr>
+        <th>Id</th>
+        <th>Matricule</th>
+        <th>Nom</th>
+        <th>ville</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let club of clubs">
+        <td>{{club.id}}</td>
+        <td>{{club.matricule}}</td>
+        <td>{{club.nom}}</td>
+        <td>{{club.ville}}</td>
+        <td>
+            <button (click)="supprimerClub(club.id ?? -1)">X</button>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <caption>Gérer les équipes</caption>
+    <tr>
+        <th>Categorie</th>
+        <th>Club_id</th>
+        <th>Actions</th>
+    </tr>
+
+    <tr *ngFor="let equipe of equipes">
+        <td>{{equipe.categorie}}</td>
+        <td>{{equipe.club_id}}</td>
+        <td>
+            <button (click)="supprimerEquipe(equipe.categorie ?? '')">X</button>
+        </td>
+    </tr>
+</table>

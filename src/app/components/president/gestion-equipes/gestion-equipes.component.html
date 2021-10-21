@@ -2,3 +2,52 @@
 <button routerLink="/president">
     Revenir sur la page Président
 </button>
+
+<div>
+
+    <button (click)="activForm=!activForm">
+        <span *ngIf="!activForm">
+            Ajouter une équipe
+        </span>
+        <span *ngIf="activForm">
+            Revenir sur la liste des équipes
+        </span>
+    </button>
+</div>
+
+<table *ngIf="!activForm">
+    <caption>Gérer les équipes</caption>
+    <tr>
+        <th>Id</th>
+        <th>Catégorie</th>
+        <th>Club</th>
+        <th colspan="2">Actions</th>
+    </tr>
+
+    <tr *ngFor="let equipe of equipes">
+
+        <td>{{equipe.id}}</td>
+        <td>{{equipe.categorie}}</td>
+        <td>{{equipe.club_id}}</td>
+
+        <td>
+            <button (click)="supprimer(equipe.id ?? -1)">X</button>
+        </td>
+        <td>
+            <button (click)="activEditForm=!activEditForm;editer(equipe.id ?? -1)">Edit</button>
+        </td>
+    </tr>
+</table>
+
+<div *ngIf="activForm">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+            <label>Catégorie : </label>
+            <input type="text" formControlName="categorie" />
+        </div>
+        <div>
+            <input type="submit" [disabled]="form.invalid" value="Ajouter">
+        </div>
+
+    </form>
+</div>

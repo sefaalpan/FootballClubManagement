@@ -20,12 +20,13 @@ export class GestionCoachsComponent implements OnInit {
   activEditForm = false;
   editForm = new FormGroup({});
   coach!: Coach
-
+  date = new Date();
   constructor(private us: UserService, private fb: FormBuilder, private editfb: FormBuilder) {
     this.registerForm = this.fb.group({
       nom: new FormControl('', [Validators.required]),
       prenom: new FormControl('', [Validators.required]),
-      date: new FormControl('', [Validators.required]),
+      date: new FormControl(this.date, [Validators.required]),
+      // date: new FormControl((new Date()).toISOString().substring(0,10)),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       password2: new FormControl('', [Validators.required]),
@@ -40,7 +41,7 @@ export class GestionCoachsComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {      
     this.us.getCoachs().subscribe(datas => this.coachs = datas);
     this.club_id = (JSON.parse(localStorage.getItem('token') as string)).club_id;
   }
@@ -73,7 +74,7 @@ export class GestionCoachsComponent implements OnInit {
 
     if (this.registerForm.valid) {
 
-      let coach!: Coach;
+      let coach : Coach = {};
       coach.nom = this.registerForm.get('nom')?.value as string;
       coach.prenom = this.registerForm.get('prenom')?.value as string;
       coach.naissance = this.registerForm.get('date')?.value;

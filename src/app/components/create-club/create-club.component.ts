@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { mergeMap } from 'rxjs/operators';
 import { Club } from 'src/app/models/club.model';
 import { President } from 'src/app/models/iuser.model';
 import { ClubService } from 'src/app/services/club.service';
@@ -13,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CreateClubComponent implements OnInit {
 
-  user_id : number = -1;
+  user_id: number = -1;
   matricule = "";
   formClub = new FormGroup({});
   club !: Club;
@@ -22,7 +23,9 @@ export class CreateClubComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private cs: ClubService,
     private activatedRoute: ActivatedRoute,
-    private us: UserService) {
+    private us: UserService,
+    private router: Router
+  ) {
     this.formClub = this.fb.group({
       matricule: new FormControl('', Validators.required),
       nom: new FormControl('', Validators.required),
@@ -31,57 +34,41 @@ export class CreateClubComponent implements OnInit {
       ville: new FormControl('', Validators.required),
       codepostal: new FormControl('', Validators.required),
     })
+
   }
 
   ngOnInit(): void {
-    let idd = this.activatedRoute.snapshot.params['user_id'] as string;
 
+    let idd = this.activatedRoute.snapshot.params['user_id'] as string;
     this.user_id = parseInt(idd.split('/')[0])
+
     this.matricule = this.activatedRoute.snapshot.params['matricule'];
 
-
-    // this.activatedRoute
-    //   .queryParams
-    //   .subscribe(params => {
-    //     console.log(params.user_id);
-        
-    //     // this.user_id=+params['user_id'] || 0
-    //     // this.matricule = +params['matricule'] || ''
-
-        
-    //     // console.log(params.get('user_id') as string);
-    //     // console.log(params.get('matricule') as string);
-        
-
-    //   })
-
-    this.us.getPresidentById(this.user_id).subscribe(p => this.president = p);
-
-
-
-    console.log(this.user_id);
-    console.log(this.matricule);
-    console.log(this.president);
-
-
+    this.us.getPresidentById(this.user_id)
+      .subscribe(p => {
+        this.president = p
+      });
 
     this.formClub.patchValue({
       matricule: this.matricule
     })
+
   }
 
   onSubmit() {
 
     if (this.formClub.valid) {
       this.club = this.formClub.value;
-      this.president.club_id = this.club.id;
 
-      this.us.updatePresident(this.user_id, this.president).subscribe();
-
-      this.cs.addClub(this.club).subscribe((data) => {
-        console.log(data);
-        this.formClub.reset();
-      });
+      this.cs.addClub(this.club)
+        .subscribe((data) => {
+          this.club = data;
+          this.president.club_id = this.club.id;
+          this.us.updatePresident(this.user_id, this.president)
+            .subscribe();
+          this.formClub.reset();
+          this.router.navigate(['login', this.president.email]);
+        });
 
     }
 

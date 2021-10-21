@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import md5 from 'md5-ts';import { Club } from 'src/app/models/club.model';
- 'src/app/models/users.model';
+import md5 from 'md5-ts';
+import { Club } from 'src/app/models/club.model';
 import { Coach, Joueur, President, User } from 'src/app/models/iuser.model';
 import { ClubService } from 'src/app/services/club.service';
 import { UserService } from 'src/app/services/user.service';

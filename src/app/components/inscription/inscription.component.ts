@@ -2,18 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import md5 from 'md5-ts';
-import { finalize, map, mergeMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { Club } from 'src/app/models/club.model';
-import { President, User } from 'src/app/models/iuser.model';
+import { President } from 'src/app/models/iuser.model';
 import { ClubService } from 'src/app/services/club.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  selector: 'app-inscription',
+  templateUrl: './inscription.component.html',
+  styleUrls: ['./inscription.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class InscriptionComponent implements OnInit {
+
 
   registerForm = new FormGroup({});
   president !: President;
@@ -53,123 +54,153 @@ export class SignUpComponent implements OnInit {
       let prenom = this.registerForm.value.prenom as string;
       let naissance = this.registerForm.value.date as Date;
       let email = this.registerForm.value.email as string;
-      let password =this.registerForm.value.password as string;
-      password =  md5(password);
+      let password = this.registerForm.value.password as string;
+      password = md5(password);
       // console.log(password);
-      
+
       let role = this.registerForm.value.role as string;
 
       let matricule = this.registerForm.value.club as string;
       let club !: Club;
-      this.cs.getClubByMatricule(matricule).subscribe(c => club = c[0]);
+      console.log("kikou");
+      
+      this.cs.getClubByMatricule(matricule).subscribe((c) => {
+        console.log(c);
+        
+        club = c[0] as Club;
+        console.log(c);
+        console.log(club);
+        // console.log(club.id as number);
+        
+        
+        if (club) {
+          console.log('le club existe deja');
 
-      if (club) {
-        console.log('le club existe deja');
+          let president: President = {};
+          //le club a-t'il déjà un president
+          this.us.getClubPresident(club.id).subscribe(p => {
 
-        let president: President = {};
-        //le club a-t'il déjà un president
-        this.us.getClubPresident(club.id).subscribe(p => president = p);
-        if (president) {
-          console.log(club + " a deja un prsident " + president);
-        }
-        else {
-
-          //check si le president existe dèjà
-          president = {} as President;
-          this.us.getPresidentByEmail(email).subscribe(p => president = p);
-          if (president) {
-            if (president.club_id) {
-              console.log(president + " a deja un club " + president.club_id);
+            president = p;
+            console.log(p);
+            
+            if (president.id) {
+              console.log(club + " a deja un prsident " + president);
             }
             else {
-              president.club_id = club.id;
-              this.us.updatePresident(president.id as number, president)
-                .subscribe(() => {
-                  console.log(president + " a été mis a jour");
-                  this.router.navigate(['login'])
-                });
+
+              //check si le president existe dèjà
+              president = {} as President;
+              this.us.getPresidentByEmail(email).subscribe(p => {
+                console.log(p);
+                
+                president = p
+                if (president.id) {
+                  if (president.club_id && president.email) {
+                    console.log(president + " a deja un club " + president.club_id);
+                  }
+                  else {
+                    president.club_id = club.id;
+                    this.us.updatePresident(president.id as number, president)
+                      .subscribe(() => {
+                        console.log(president + " a été mis a jour");
+                        this.router.navigate(['login'])
+                      });
+                  }
+                }
+                else {
+                  //si le club existe mais n'a pas de president
+                  president = {} as President;
+                  president.nom = nom;
+                  president.prenom = prenom;
+                  president.naissance = naissance;
+                  president.email = email;
+                  president.password = password;
+                  president.role = role;
+                  president.club_id = club.id;
+  
+                  this.us.addPresident(president).subscribe(() => {
+                    //On pourrait rediriger vers login en completant l'input
+                    // this.router.navigate(['login', email]);
+                    console.log(club + " a maintenant un président " + president);
+                    this.router.navigate(['login']);
+                  })
+                }
+              });
             }
-          }
-          else {
-            //si le club existe mais n'a pas de president
-            president = {} as President;
-            president.nom = nom;
-            president.prenom = prenom;
-            president.naissance = naissance;
-            president.email = email;
-            president.password = password;
-            president.role = role;
-            president.club_id = club.id;
 
-            this.us.addPresident(president).subscribe(() => {
-              //On pourrait rediriger vers login en completant l'input
-              // this.router.navigate(['login', email]);
-              console.log(club + " a maintenant un président " + president);
-              this.router.navigate(['login']);
-            })
 
-          }
-        }
-      }
-      else {
-        console.log("le club n'existe pas");
+          });
 
-        //check si le president existe deja 
-        //check si le president existe dèjà
-        let president!: President;
-        this.us.getPresidentByEmail(email).subscribe(p => president = p);
-        console.log(president);
 
-        if (president !== undefined) {
-          console.log("no club president existe");
 
-          if (president.club_id) {
-            console.log(president + " a deja un club " + president.club_id);
-            this.router.navigate(['login']);
-          }
-          else {
-            //le president existe mais n'a pas de club on redirige vers createclub
-            console.log("le president existe mais n'a pas de club on redirige vers createclub");
-            this.router.navigate(['create-club/', president.id + '/', matricule]);
-          }
         }
         else {
+          console.log("le club n'existe pas");
 
-          president = {} as President;
-          president.nom = nom;
-          president.prenom = prenom;
-          president.naissance = naissance;
-          president.email = email;
-          president.password = password;
-          president.role = role;
+          //check si le president existe deja 
+          //check si le president existe dèjà
+          let president!: President;
+          this.us.getPresidentByEmail(email).subscribe(p => {
+            president = p
+            console.log(president);
 
-          console.log(president);
+            if (president.id) {
+              console.log("no club president existe");
 
-          this.us.addPresident(president)
-            .pipe(
-              // mergeMap(p => this.us.getPresidentByEmail(president.email as string)),
-              finalize(()=>{
-                console.log(president)
+              if (president.club_id) {
+                console.log(president + " a deja un club " + president.club_id);
+                this.router.navigate(['login']);
+              }
+              else {
+                //le president existe mais n'a pas de club on redirige vers createclub
+                console.log("le president existe mais n'a pas de club on redirige vers createclub");
                 this.router.navigate(['create-club/', president.id + '/', matricule]);
-              })
-            )
-            .subscribe((p) => president = p);
+              }
+            }
+            else {
+
+              president = {} as President;
+              president.nom = nom;
+              president.prenom = prenom;
+              president.naissance = naissance;
+              president.email = email;
+              president.password = password;
+              president.role = role;
+
+              console.log(president);
+
+              this.us.addPresident(president)
+                .pipe(
+                  // mergeMap(p => this.us.getPresidentByEmail(president.email as string)),
+                  finalize(() => {
+                    console.log(president)
+                    this.router.navigate(['create-club/', president.id + '/', matricule]);
+                  })
+                )
+                .subscribe((p) => president = p);
 
 
 
-          // this.us.getPresidentByEmail(president.email as string)
-          //   .subscribe(p => this.president = p);
+              // this.us.getPresidentByEmail(president.email as string)
+              //   .subscribe(p => this.president = p);
 
-          // console.log(this.president);
-          // console.log(president.id);
-          
-          
+              // console.log(this.president);
+              // console.log(president.id);
 
+
+
+            }
+
+
+
+          });
+          //check si le president a deja un club
+          //creation president 
+          //redirect 
         }
-        //check si le president a deja un club
-        //creation president 
-        //redirect 
-      }
+
+      });
+
 
     }
 

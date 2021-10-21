@@ -25,9 +25,6 @@ export class UserService {
     this.getCoachs().subscribe((datas) => {
       datas.forEach(d => this.users.push(d));
     });
-    this.getJoueurs().subscribe((datas) => {
-      datas.forEach(d => this.users.push(d));
-    });
 
     console.log(this.users);
 
@@ -43,13 +40,20 @@ export class UserService {
     let emailUrl = "?email="
     return this.httpclient.get<President>(this.presidentsEndUrl + emailUrl + email);
   }
-  addPresident(president: President): Observable<void> {
-    return this.httpclient.post<void>(this.presidentsEndUrl, president);
+  addPresident(president: President): Observable<President> {
+    this.users.push(president);
+    return this.httpclient.post<President>(this.presidentsEndUrl, president);
   }
   updatePresident(id: number, president: President): Observable<void> {
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].email === president.email) {
+        this.users[i] = president;
+      }
+    }
     return this.httpclient.put<void>(this.presidentsEndUrl + id, president);
   }
   deletePresident(id: number): Observable<void> {
+    this.users.splice(id, 1);
     return this.httpclient.delete<void>(this.presidentsEndUrl + id);
   }
   getClubPresident(club_id: number): Observable<President> {
@@ -72,9 +76,16 @@ export class UserService {
     return this.httpclient.post<void>(this.coachEndUrl, coach);
   }
   updateCoach(id: number, coach: Coach): Observable<void> {
+
+    for (let i = 0; i < this.users.length; i++) {
+      if (this.users[i].email === coach.email) {
+        this.users[i] = coach;
+      }
+    }
     return this.httpclient.put<void>(this.coachEndUrl + id, coach);
   }
   deleteCoach(id: number): Observable<void> {
+    this.users.splice(id, 1);
     return this.httpclient.delete<void>(this.coachEndUrl + id);
   }
 
@@ -85,7 +96,7 @@ export class UserService {
     return this.httpclient.get<Joueur>(this.joueursEndUrl + id);
   }
   addJoueur(joueur: Joueur): Observable<void> {
-    this.users.push(joueur);
+    // this.users.push(joueur);
     return this.httpclient.post<void>(this.joueursEndUrl, joueur);
   }
   updateJoueur(id: number, joueur: Joueur): Observable<void> {
@@ -98,18 +109,35 @@ export class UserService {
 
   login(email: string, mdp: string): User {
 
-    let user !:User;
+    let user!: User ;
 
-
-
-    this.users.forEach(u => {
-      if (u.email === email && u.password === mdp && (u.role==='president' || u.role==='coach')) {
+    for (let i = 0; i < this.users.length; i++) {
+      let u = this.users[i];
+      // console.log(u);  
+      if(email==="yee@email"){
+        console.log(u.email);
+        console.log(email);
+        console.log(u.password);
+        console.log(mdp);
+      }      
+      if (u.email === email && u.password === mdp) {
         user = u;
-        return;
+        console.log(u);
+        console.log(user);
+        i = this.users.length;
       }
-    });
+    }
+    // this.users.forEach(u => {
+    //   if (u.email === email && u.password === mdp && (u.role==='president' || u.role==='coach')) {
+    //     user = u;
+    //     console.log(u);
 
-    if (user) {
+    //     return;
+    //   }
+    // });
+
+    if (user != undefined) {
+      console.log(user);
       
       this.currentUser = user;
       console.log(this.currentUser.role);
@@ -117,14 +145,14 @@ export class UserService {
       console.log("Hello from service " + this.currentUser.prenom + " "
         + this.currentUser.nom);
 
-      let hash = this.generateToken(this.currentUser);
+      // let hash = this.generateToken(this.currentUser);
       // localStorage.setItem('token', hash);
       localStorage.setItem('token', JSON.stringify(this.currentUser));
       console.log(localStorage.getItem('token'));
 
       return this.currentUser;
     }
-    else return {};
+    else return user;
   }
 
   getCurrentUser(): User {
