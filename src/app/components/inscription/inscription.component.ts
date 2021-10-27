@@ -18,6 +18,7 @@ export class InscriptionComponent implements OnInit {
 
   registerForm = new FormGroup({});
   president !: President;
+  errors = '';
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -75,6 +76,7 @@ export class InscriptionComponent implements OnInit {
         
         if (club) {
           console.log('le club existe deja');
+          this.errors="Ce matricule existe déjà";
 
           let president: President = {};
           //le club a-t'il déjà un president
@@ -86,6 +88,10 @@ export class InscriptionComponent implements OnInit {
             
             if (president) {
               console.log(club + " a deja un prsident " + president);
+              if(president.email === email){
+                this.errors = "Veuillez vous connecter";
+                this.router.navigate(['login', president.email])
+              }
             }
             else {
               //check si le president existe dèjà
@@ -139,19 +145,18 @@ export class InscriptionComponent implements OnInit {
         else {
           console.log("le club n'existe pas");
 
-          //check si le president existe deja 
           //check si le president existe dèjà
           let president!: President;
           this.us.getPresidentByEmail(email).subscribe(p => {
             president = p[0]
             console.log(president);
 
-            if (president.id) {
+            if (president) {
               console.log("no club president existe");
 
               if (president.club_id) {
                 console.log(president + " a deja un club " + president.club_id);
-                this.router.navigate(['login']);
+                this.router.navigate(['login', president.email]);
               }
               else {
                 //le president existe mais n'a pas de club on redirige vers createclub

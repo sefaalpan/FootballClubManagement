@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { mergeMap } from 'rxjs/operators';
 import { Club } from '../models/club.model';
 import { Equipe } from '../models/equipe.model';
-import { President } from '../models/iuser.model';
+import { President, Joueur } from '../models/iuser.model';
 import { ClubService } from '../services/club.service';
 import { EquipeService } from '../services/equipe.service';
 import { UserService } from '../services/user.service';
@@ -14,22 +14,26 @@ import { UserService } from '../services/user.service';
 })
 export class IndexComponent implements OnInit {
 
-  presidents : President[] = [];
-  clubs : Club[] = [];
-  equipes : Equipe[] = []
-  
-  constructor(private us : UserService, private cs:ClubService, private es:EquipeService) { }
+  presidents: President[] = [];
+  clubs: Club[] = [];
+  equipes: Equipe[] = [];
+  joueurs: Joueur[] = [];
 
-  ngOnInit(): void { 
+  constructor(private us: UserService, private cs: ClubService, private es: EquipeService) { }
+
+  ngOnInit(): void {
 
     this.us.getPresidents()
-      .subscribe(datas=>this.presidents=datas);
-    
+      .subscribe(datas => this.presidents = datas);
+
     this.cs.getClubs()
-      .subscribe(datas=>this.clubs=datas);
+      .subscribe(datas => this.clubs = datas);
 
     this.es.getEquipesConfondues()
-    .subscribe(datas=>this.equipes=datas);
+      .subscribe(datas => this.equipes = datas);
+
+    this.us.getJoueurs()
+      .subscribe(e => this.joueurs = e);
   }
 
   supprimer(id: number) {
@@ -40,12 +44,12 @@ export class IndexComponent implements OnInit {
       .subscribe(datas => this.presidents = datas);
   }
 
-  supprimerClub(id:number) {
+  supprimerClub(id: number) {
     this.cs.deleteClub(id)
-    .pipe(
-      mergeMap(() => this.cs.getClubs())
-    )
-    .subscribe(datas => this.clubs=datas)
+      .pipe(
+        mergeMap(() => this.cs.getClubs())
+      )
+      .subscribe(datas => this.clubs = datas)
   }
 
   supprimerEquipe(categorie: string) {
@@ -54,5 +58,13 @@ export class IndexComponent implements OnInit {
         mergeMap(() => this.es.getEquipesConfondues())
       )
       .subscribe(datas => this.equipes = datas);
+  }
+
+  supprimerJoueur(id: number) {
+    this.us.deleteJoueur(id)
+      .pipe(
+        mergeMap(() => this.us.getJoueurs())
+      )
+      .subscribe(datas => this.joueurs = datas)
   }
 }

@@ -1,34 +1,35 @@
+<div class="container" *ngIf="club">
+    <div>
 
-<p>club component works</p>
-
-<div>
-    <form [formGroup]="formClub" (ngSubmit)="onSubmit()">
-        <div>
-            <label>Matricule</label>
-            <input type="text" formControlName="matricule">
-        </div>
-        <div>
-            <label>Nom</label>
-            <input type="text" formControlName="nom">
-        </div>
-        <div>
-            <label>Ville</label>
-            <input type="text" formControlName="ville">
-        </div>
-        <div>
-            <label>Code postal</label>
-            <input type="text" formControlName="codepostal">
-        </div>
-        <div>
-            <label>Rue</label>
-            <input type="text" formControlName="rue">
-        </div>
-        <div>
-            <label>Numéro</label>
-            <input type="text" formControlName="numero">
-        </div>
-
-        <input type="submit" value="Enregistrer le club" [disabled]="formClub.invalid">
+        <h2 [ngStyle]="{'text-align':'center'}">
+            Informations sur le club
+        </h2>
+    </div>
+    <div>
+        <label>Matricule :</label> {{club.matricule}}
+    </div>
+    <div>
+        <label>Nom : </label>  {{club.nom}}
+    </div>
+    <div>
+        <label>Adresse : </label>  {{club.rue}} {{club.numero}}, {{club.codepostal}} {{club.ville}}
+    </div>
+    <div *ngIf="equipes.length>1">
+        <label>Équipes : </label>  
+        <ul *ngFor="let equipe of equipes">
+            <li>
+                {{equipe.categorie}}
+            </li>
+        </ul>
         
-    </form>
+    </div>
+    <div *ngIf="equipes.length==1">
+        <label>Équipe :</label>   {{equipes[0].categorie}}
+        <!-- <ul  *ngFor="let equipe of equipes">
+            <li>
+                {{equipe.categorie}}
+            </li>
+        </ul> -->
+    </div>
+
 </div>

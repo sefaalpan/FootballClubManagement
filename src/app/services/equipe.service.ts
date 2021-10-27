@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Equipe } from '../models/equipe.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +24,12 @@ export class EquipeService {
   getEquipesClub(club_id: number): Observable<Equipe[]> {
     return this.httpclient.get<Equipe[]>(this.reqClub_id+club_id);
   }
+  
+  getEquipeById(id: number): Observable<Equipe> {
+    return this.httpclient.get<Equipe>(this.url+id);
+  }
+
+
 
   addEquipe(equipe : Equipe) : Observable<Equipe> {
     return this.httpclient.post<Equipe>(this.url, equipe);

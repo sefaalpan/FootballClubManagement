@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { User } from '../models/iuser.model';
+import { Coach } from '../models/iuser.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PresidentGuard implements CanActivate {
+export class CoachGuard implements CanActivate {
 
-  user!: User;
-  constructor(private router: Router) { }
+  user !: Coach
+  constructor(private router : Router){}
 
   canActivate(): boolean {
 
     this.user = JSON.parse(sessionStorage.getItem('token') as string)
 
     if (this.user) {
-      if (this.user.role === "president")
+      if (this.user.role === "coach")
         return true;
       else this.router.navigate(['home']);
     }
@@ -27,5 +27,4 @@ export class PresidentGuard implements CanActivate {
     }
     return false;
   }
-
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import md5 from 'md5-ts';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Coach, Joueur, President, User } from '../models/iuser.model';
 
@@ -16,6 +16,9 @@ export class UserService {
   private presidentsEndUrl: string = environment.url + 'presidents/';
   private coachEndUrl: string = environment.url + 'coachs/';
   private joueursEndUrl: string = environment.url + 'joueurs/';
+
+  myUserSubject: Subject<User> = new Subject<User>();
+
 
   constructor(private httpclient: HttpClient) {
 
@@ -44,13 +47,13 @@ export class UserService {
     this.users.push(president);
     return this.httpclient.post<President>(this.presidentsEndUrl, president);
   }
-  updatePresident(id: number, president: President): Observable<void> {
+  updatePresident(id: number, president: President): Observable<President> {
     for (let i = 0; i < this.users.length; i++) {
       if (this.users[i].email === president.email) {
         this.users[i] = president;
       }
     }
-    return this.httpclient.put<void>(this.presidentsEndUrl + id, president);
+    return this.httpclient.put<President>(this.presidentsEndUrl + id, president);
   }
   deletePresident(id: number): Observable<void> {
     this.users.splice(id, 1);
@@ -71,18 +74,22 @@ export class UserService {
     let emailUrl = "?email="
     return this.httpclient.get<Coach>(this.coachEndUrl + emailUrl + email);
   }
+  getCoachByClub(club_id: number): Observable<Coach[]> {
+    let request = "?club_id="
+    return this.httpclient.get<Coach[]>(this.coachEndUrl+ request + club_id);
+  }
   addCoach(coach: Coach): Observable<void> {
     this.users.push(coach);
     return this.httpclient.post<void>(this.coachEndUrl, coach);
   }
-  updateCoach(id: number, coach: Coach): Observable<void> {
+  updateCoach(id: number, coach: Coach): Observable<Coach> {
 
     for (let i = 0; i < this.users.length; i++) {
       if (this.users[i].email === coach.email) {
         this.users[i] = coach;
       }
     }
-    return this.httpclient.put<void>(this.coachEndUrl + id, coach);
+    return this.httpclient.put<Coach>(this.coachEndUrl + id, coach);
   }
   deleteCoach(id: number): Observable<void> {
     this.users.splice(id, 1);
@@ -95,6 +102,15 @@ export class UserService {
   getJoueurById(id: number): Observable<Joueur> {
     return this.httpclient.get<Joueur>(this.joueursEndUrl + id);
   }
+  getJoueursFromEquipe(equipe_id: number): Observable<Joueur[]> {
+    let reqEquip = '?equipe_id='
+    return this.httpclient.get<Joueur[]>(this.joueursEndUrl + reqEquip + equipe_id);
+  }
+  getJoueursFromClub(club_id: number): Observable<Joueur[]> {
+    let reqClub = '?club_id='
+    return this.httpclient.get<Joueur[]>(this.joueursEndUrl + reqClub + club_id);
+  }
+
   addJoueur(joueur: Joueur): Observable<void> {
     // this.users.push(joueur);
     return this.httpclient.post<void>(this.joueursEndUrl, joueur);
@@ -109,17 +125,10 @@ export class UserService {
 
   login(email: string, mdp: string): User {
 
-    let user!: User ;
+    let user!: User;
 
     for (let i = 0; i < this.users.length; i++) {
       let u = this.users[i];
-      // console.log(u);  
-      if(email==="yee@email"){
-        console.log(u.email);
-        console.log(email);
-        console.log(u.password);
-        console.log(mdp);
-      }      
       if (u.email === email && u.password === mdp) {
         user = u;
         console.log(u);
@@ -127,18 +136,10 @@ export class UserService {
         i = this.users.length;
       }
     }
-    // this.users.forEach(u => {
-    //   if (u.email === email && u.password === mdp && (u.role==='president' || u.role==='coach')) {
-    //     user = u;
-    //     console.log(u);
-
-    //     return;
-    //   }
-    // });
 
     if (user != undefined) {
       console.log(user);
-      
+
       this.currentUser = user;
       console.log(this.currentUser.role);
 
@@ -147,9 +148,9 @@ export class UserService {
 
       // let hash = this.generateToken(this.currentUser);
       // localStorage.setItem('token', hash);
-      localStorage.setItem('token', JSON.stringify(this.currentUser));
-      console.log(localStorage.getItem('token'));
-
+      sessionStorage.setItem('token', JSON.stringify(this.currentUser));
+      console.log(sessionStorage.getItem('token'));
+      this.emitUser();
       return this.currentUser;
     }
     else return user;
@@ -159,9 +160,13 @@ export class UserService {
     return this.currentUser;
   }
 
+  emitUser() {
+    this.myUserSubject.next(this.currentUser);
+  }
+
   loggedIn() {
     // return !!this.currentUser;
-    return !!localStorage.getItem('token')
+    return !!sessionStorage.getItem('token')
   }
 
   generateToken(user: User) {
@@ -173,6 +178,9 @@ export class UserService {
     return this.currentUser.role as string;
   }
 
+  deconnecter() {
+    sessionStorage.removeItem('token');
+  }
 
   initpostes() {
 

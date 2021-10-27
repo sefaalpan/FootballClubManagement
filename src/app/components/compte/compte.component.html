@@ -1,0 +1,89 @@
+<div class="container">
+    <h2>Informations personnelles</h2>
+    <div *ngIf="user.role === 'president'">
+
+        <div>
+            <h3>{{user.nom}} {{user.prenom}}</h3>
+        </div>
+
+        <div>
+            <label>Email :</label>
+             {{user.email}}
+        </div>
+        <div>
+            <label>Date de naissance :</label>
+             {{user.naissance}}
+        </div>
+        <div>
+            <label>Rôle :</label>
+             {{user.role | titlecase}}
+        </div>
+        <div *ngIf="club">
+            <label>Club :</label>
+             {{club.nom}}
+        </div>
+        <br>
+
+        <div>
+            <button (click)="activModif=!activModif">Modifier le mot de passe</button>
+        </div>
+
+    </div>
+
+
+    <div *ngIf="user.role === 'coach'">
+
+        <div>
+            <h3>{{coach.nom}} {{coach.prenom}}</h3>
+        </div>
+
+        <div>
+            <label>Email :</label> {{coach.email}}
+        </div>
+        <div>
+            <label>Date de naissance :</label> {{coach.naissance}}
+        </div>
+        <div>
+            <label>Rôle :</label> {{coach.role | titlecase}}
+        </div>
+        <div *ngIf="club">
+            <label>Club :</label> {{club.nom}}
+        </div>
+        <div>
+            <label>Statut :</label> {{coach.statut}}
+        </div>
+        <div *ngIf="equipe">
+            <label>Équipe :</label> {{equipe.categorie}}
+        </div>
+        <br>
+        <div>
+            <button (click)="activModif=!activModif">Modifier le mot de passe</button>
+        </div>
+
+    </div>
+
+
+    <form *ngIf="activModif" [formGroup]="form" (ngSubmit)="submit()">
+
+        <div>
+            <label>Ancien mot de passe :</label>
+            <input type="password" formControlName="oldpassword">
+        </div>
+        <div>
+            <label>Nouveau mot de passe :</label>
+            <input type="password" formControlName="nouveaupassword">
+        </div>
+        <div>
+            <label>Confirmation mot de passe :</label>
+            <input type="password" formControlName="confirmationpassword">
+        </div>
+        <input type="submit" value="Valider" [disabled]="form.invalid 
+        || form.value.nouveaupassword !== form.value.confirmationpassword ">
+    </form>
+    <p *ngIf="message">
+        {{message}}
+    </p>
+
+
+
+</div>

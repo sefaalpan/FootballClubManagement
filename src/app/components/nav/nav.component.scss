@@ -1,0 +1,18 @@
+ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    min-width: 70%;
+}
+
+li{
+    list-style-type: none;
+    padding: 2%;
+}
+a{
+    text-decoration: none;
+}
+a:hover {
+    color:rgb(197, 0, 0);
+    cursor: pointer;
+}

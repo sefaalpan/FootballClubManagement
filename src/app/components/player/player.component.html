@@ -1,0 +1,37 @@
+
+
+<div class="container" *ngIf="joueur">
+    <h2>Informations personnelles</h2>
+
+    <div>
+        <h3>{{joueur.nom}} {{joueur.prenom}}</h3>
+    </div>
+    <div>
+        <img src="../../../assets/images/{{joueur.prenom | lowercase}}_{{joueur.nom | lowercase}}.jpeg" />
+        <!-- <img src="../../../assets/images/dimitri_payet.jpeg"/> -->
+
+        <!-- Importer un fichier 
+        <div [formGroup]="form" (ngSubmit)="submit()">
+            <div *ngIf="imageSrc === ''">
+                <input formControlName="file" id="file" type="file" class="form-control"
+                    (change)="onFileChange($event)" accept="image/png, image/jpeg, image/jpg">
+            </div>
+            <img [src]="imageSrc" *ngIf="imageSrc">
+        </div> -->
+
+    </div>
+
+    <div>
+        <label>Date de naissance :</label> {{joueur.naissance}}
+    </div>
+    <div>
+        <label>Poste :</label> {{joueur.poste}}
+    </div>
+    <div *ngIf="club">
+        <label>Club :</label> {{club.nom}}
+    </div>
+    <div *ngIf="equipe">
+        <label>Équipe :</label> {{equipe.categorie}}
+    </div>
+
+</div>

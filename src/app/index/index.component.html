@@ -56,3 +56,28 @@
         </td>
     </tr>
 </table>
+
+<table>
+    <caption>Gérer les joueurs</caption>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Poste</th>
+        <th>Blessé</th>
+        <th>Équipe</th>
+        <th colspan="2">Actions</th>
+    </tr>
+
+    <tr *ngFor="let joueur of joueurs">
+        <td>{{joueur.id}}</td>
+        <td>{{joueur.nom}}</td>
+        <td>{{joueur.prenom}}</td>
+        <td>{{joueur.poste}}</td>
+        <td>{{joueur.isBlesse}}</td>
+        <td>{{joueur.equipe_id}}</td>
+        <td>
+            <button (click)="supprimerJoueur(joueur.id ?? -1)">X</button>
+        </td>
+    </tr>
+</table>

@@ -1,22 +1,24 @@
-<p>gestion-equipes works!</p>
 <button routerLink="/president">
     Revenir sur la page Président
 </button>
 
 <div>
 
-    <button (click)="activForm=!activForm">
-        <span *ngIf="!activForm">
-            Ajouter une équipe
-        </span>
-        <span *ngIf="activForm">
-            Revenir sur la liste des équipes
-        </span>
+    <button (click)="activForm=!activForm" *ngIf="!activForm">
+        Ajouter une équipe
+    </button>
+
+    <button *ngIf="activForm" (click)="activForm=!activForm">
+        Revenir sur la liste des équipes
     </button>
 </div>
 
-<table *ngIf="!activForm">
-    <caption>Gérer les équipes</caption>
+<h3 style="text-align: center;margin-top: 30px;" *ngIf="equipes.length===0">
+    Pas encore d'équipes inscrites
+</h3>
+
+<h2>Gérer les équipes</h2>
+<table *ngIf="!activForm && equipes.length>0">
     <tr>
         <th>Id</th>
         <th>Catégorie</th>
@@ -28,13 +30,13 @@
 
         <td>{{equipe.id}}</td>
         <td>{{equipe.categorie}}</td>
-        <td>{{equipe.club_id}}</td>
+        <td *ngIf="club">{{club.nom}}</td>
 
         <td>
-            <button (click)="supprimer(equipe.id ?? -1)">X</button>
+            <button (click)="supprimer(equipe.id ?? -1)">Delete</button>
         </td>
         <td>
-            <button (click)="activEditForm=!activEditForm;editer(equipe.id ?? -1)">Edit</button>
+            <button (click)="editer(equipe.id ?? -1)">Edit</button>
         </td>
     </tr>
 </table>

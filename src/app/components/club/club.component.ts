@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Club } from 'src/app/models/club.model';
+import { Equipe } from 'src/app/models/equipe.model';
+import { User } from 'src/app/models/iuser.model';
 import { ClubService } from 'src/app/services/club.service';
+import { EquipeService } from 'src/app/services/equipe.service';
 
 @Component({
   selector: 'app-club',
@@ -11,31 +14,22 @@ import { ClubService } from 'src/app/services/club.service';
 export class ClubComponent implements OnInit {
 
   club !: Club;
-  formClub: FormGroup = new FormGroup({});
+  user !: User;
+  equipes: Equipe[] = [];
 
-  constructor(private fb: FormBuilder, private cs: ClubService) {
-    this.formClub = this.fb.group({
-      matricule: new FormControl('', Validators.required),
-      nom: new FormControl('', Validators.required),
-      rue: new FormControl('', Validators.required),
-      numero: new FormControl('', Validators.required),
-      ville: new FormControl('', Validators.required),
-      codepostal: new FormControl('', Validators.required),
-    })
-  }
+  constructor(private cs: ClubService, private es: EquipeService) {}
 
-  ngOnInit(): void { }
-
-  onSubmit() {
-
-    if (this.formClub.valid) {
-      this.club = this.formClub.value;
-      this.cs.addClub(this.club).subscribe((data) => {
-        console.log(data);
-        this.formClub.reset();
+  ngOnInit(): void {
+    this.user = JSON.parse(sessionStorage.getItem('token') as string);
+    this.cs.getClubById(this.user.club_id as number)
+      .subscribe(c => {
+        this.club = c;
+        this.es.getEquipesClub(c.id)
+          .subscribe(e => {
+            this.equipes = e;
+            console.log(e.length);
+          });
       });
-
-    }
-
   }
+
 }

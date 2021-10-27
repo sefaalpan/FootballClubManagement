@@ -4,6 +4,6 @@ export interface Club {
     rue: string;
     numero: string;
     ville: string;
-    cp: number;
+    codepostal: number;
     id: number;
 }

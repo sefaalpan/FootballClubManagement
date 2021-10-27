@@ -1,0 +1,151 @@
+<div *ngIf='equipe'>
+    <h2>
+        Équipe {{equipe.categorie | lowercase}}
+    </h2>
+</div>
+
+
+
+<table *ngIf="!activForm">
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Poste</th>
+        <th>Blessé</th>
+        <th colspan="2">Actions</th>
+    </tr>
+
+    <tr *ngFor="let joueur of joueurs; let i = index" (click)="affichPlayer(joueur.id ?? -1)">
+        <td>{{joueur.id}}</td>
+        <td>{{joueur.nom}}</td>
+        <td>{{joueur.prenom}}</td>
+        <td>{{joueur.poste}}</td>
+        <td *ngIf="joueur.isBlesse===true">Oui</td>
+        <td *ngIf="joueur.isBlesse===false">Non</td>
+        <td>
+            <button (click)="supprimer(joueur.id ?? -1)">Delete</button>
+        </td>
+        <td>
+            <button (click)="activEditForm=!activEditForm;editer(joueur.id ?? -1)">Edit</button>
+        </td>
+    </tr>
+
+</table>
+
+<div>
+    <button (click)="activForm=!activForm" *ngIf="!activForm">
+        Ajouter un joueur
+    </button>
+
+    <button *ngIf="activForm" (click)="activForm=!activForm">
+        Revenir sur la liste de joueurs
+    </button>
+</div>
+
+
+<form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
+
+    <div>
+        <label>Nom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="nom">
+    </div>
+    <div>
+        <label>Prénom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="prenom">
+    </div>
+    <div>
+        <label>Date de naissance</label>
+    </div>
+    <div>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Poste</label>
+    </div>
+    <div>
+        <select formControlName="poste">
+            <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
+                {{poste}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Le joueur est-il blessé ?</label>
+    </div>
+    <div>
+
+        <div class="col">
+            <label>
+                <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
+                Oui
+            </label>
+
+            <label>
+                <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
+                Non
+            </label>
+        </div>
+
+    </div>
+    <div>
+        <input type="submit" value="S'enregistrer" [disabled]="(!registerForm.valid) 
+            || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
+    </div>
+</form>
+
+<form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
+
+
+    <div>
+        <label>Nom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="nom">
+    </div>
+    <div>
+        <label>Prénom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="prenom">
+    </div>
+    <div>
+        <label>Date de naissance</label>
+    </div>
+    <div>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Poste</label>
+    </div>
+    <div>
+        <select formControlName="poste">
+            <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
+                {{poste}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Le joueur est-il blessé ?</label>
+    </div>
+    <div>
+        <div class="col">
+            <label>
+                <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
+                Oui
+            </label>
+
+            <label>
+                <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
+                Non
+            </label>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+    </div>
+</form>

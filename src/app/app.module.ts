@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
 import { ClubComponent } from './components/club/club.component';
@@ -18,16 +17,16 @@ import { PresidentGuard } from './guards/president.guard';
 import { GestionJoueursComponent } from './components/president/gestion-joueurs/gestion-joueurs.component';
 import { GestionCoachsComponent } from './components/president/gestion-coachs/gestion-coachs.component';
 import { GestionEquipesComponent } from './components/president/gestion-equipes/gestion-equipes.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CreateClubComponent } from './components/create-club/create-club.component';
 import { IndexComponent } from './index/index.component';
 import { InscriptionComponent } from './components/inscription/inscription.component';
-
+import { CompteComponent } from './components/compte/compte.component';
+import { ManagePlayersComponent } from './components/coach/manage-players/manage-players.component';
+import { PlayerComponent } from './components/player/player.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
     NavComponent,
     HomeComponent,
     ClubComponent,
@@ -35,10 +34,12 @@ import { InscriptionComponent } from './components/inscription/inscription.compo
     GestionJoueursComponent,
     GestionCoachsComponent,
     GestionEquipesComponent,
-    SignUpComponent,
     CreateClubComponent,
     IndexComponent,
-    InscriptionComponent
+    InscriptionComponent,
+    CompteComponent,
+    ManagePlayersComponent,
+    PlayerComponent,
   ],
   imports: [
     BrowserModule,

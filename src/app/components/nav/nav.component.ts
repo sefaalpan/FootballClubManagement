@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/iuser.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -10,16 +11,26 @@ import { UserService } from 'src/app/services/user.service';
 export class NavComponent implements OnInit {
 
   isConnected = this.us.loggedIn();
+  user !: User;
 
   constructor(private router : Router, private us : UserService) { }
 
   ngOnInit(): void {
     console.log(this.isConnected);   
+    this.user = JSON.parse(sessionStorage.getItem('token') as string)
+    
+    this.us.myUserSubject.subscribe((cu: User) => {
+      this.user = cu;
+      console.log(cu);
+      
+      this.isConnected=true;
+    });
   }
 
   deconnexion(){
     this.isConnected = !this.isConnected;
-    localStorage.removeItem('token');
+    this.us.deconnecter();
+    // localStorage.removeItem('token');
     this.router.navigate(['login']);
 
   }

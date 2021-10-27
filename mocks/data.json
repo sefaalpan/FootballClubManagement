@@ -19,6 +19,36 @@
       "role": "president",
       "club_id": 2,
       "id": 2
+    },
+    {
+      "nom": "Perez",
+      "prenom": "Florentino",
+      "naissance": "1986-10-10",
+      "email": "flo@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "role": "president",
+      "id": 3,
+      "club_id": 3
+    },
+    {
+      "nom": "Tapie",
+      "prenom": "Bernard",
+      "naissance": "1000-10-10",
+      "email": "tp@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "role": "president",
+      "id": 4,
+      "club_id": 4
+    },
+    {
+      "nom": "Laporta",
+      "prenom": "Joan",
+      "naissance": "1962-06-29",
+      "email": "laporta@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "role": "president",
+      "id": 5,
+      "club_id": 5
     }
   ],
   "coachs": [
@@ -31,7 +61,45 @@
       "role": "coach",
       "club_id": 1,
       "statut": "principal",
-      "id": 1
+      "id": 1,
+      "equipe_id": 1
+    },
+    {
+      "nom": "Ancelotti",
+      "prenom": "Carlo",
+      "naissance": "1999-12-19",
+      "email": "carlo@email",
+      "password": "0cc175b9c0f1b6a831c399e269772661",
+      "role": "coach",
+      "club_id": 1,
+      "statut": "principal",
+      "equipe_id": 2,
+      "id": 2
+    },
+    {
+      "nom": "Sampaoli",
+      "prenom": "Jorge",
+      "naissance": "1960-03-13",
+      "email": "sampa@email",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "role": "coach",
+      "club_id": 4,
+      "statut": "principal",
+      "equipe_id": "7",
+      "id": 3
+    },
+    {
+      "nom": "Bielsa",
+      "prenom": "Marcelo",
+      "date": "1955-07-21",
+      "email": "bielsa@email",
+      "statut": "principal",
+      "naissance": "1955-07-21",
+      "password": "9003d1df22eb4d3820015070385194c8",
+      "club_id": 4,
+      "role": "coach",
+      "equipe_id": "8",
+      "id": 4
     }
   ],
   "joueurs": [
@@ -45,7 +113,8 @@
       "club_id": 1,
       "poste": "10 - Milieu offensif",
       "isBlesse": false,
-      "id": 1
+      "id": 1,
+      "equipe_id": 1
     },
     {
       "nom": "Neymar",
@@ -58,7 +127,8 @@
       "password": "d5de679d452cb429e6f55e64a9988cbf",
       "club_id": 1,
       "discriminator": "joueur",
-      "id": 2
+      "id": 2,
+      "equipe_id": 1
     },
     {
       "nom": "Ronaldo",
@@ -69,7 +139,96 @@
       "naissance": "1996-10-04",
       "club_id": 1,
       "discriminator": "joueur",
-      "id": 3
+      "id": 3,
+      "equipe_id": 1
+    },
+    {
+      "nom": "Van Persie",
+      "prenom": "Robin",
+      "naissance": "1976-09-19",
+      "equipe_id": 1,
+      "role": "joueur",
+      "club_id": 1,
+      "poste": "9 - Attaquant en pointe",
+      "isBlesse": false,
+      "id": 4
+    },
+    {
+      "nom": "Benzema",
+      "prenom": "Karim",
+      "naissance": "1987-12-19",
+      "equipe_id": 2,
+      "role": "joueur",
+      "club_id": 1,
+      "poste": "9 - Attaquant en pointe",
+      "isBlesse": false,
+      "id": 7
+    },
+    {
+      "nom": "Alaba",
+      "prenom": "David",
+      "naissance": "1992-06-24",
+      "equipe_id": 2,
+      "role": "joueur",
+      "club_id": 1,
+      "poste": "5 - Défenseur central gauche",
+      "isBlesse": false,
+      "id": 8
+    },
+    {
+      "nom": "Hazard",
+      "prenom": "Eden",
+      "naissance": "1991-01-07",
+      "equipe_id": 2,
+      "role": "joueur",
+      "club_id": 1,
+      "poste": "7 - Attaquant gauche",
+      "isBlesse": true,
+      "id": 9
+    },
+    {
+      "nom": "Payet",
+      "prenom": "Dimitri",
+      "naissance": "1990-01-11",
+      "equipe_id": 7,
+      "role": "joueur",
+      "club_id": 4,
+      "poste": "10 - Milieu offensif",
+      "isBlesse": false,
+      "id": 10
+    },
+    {
+      "nom": "Under",
+      "prenom": "Cengiz",
+      "naissance": "1997-07-14",
+      "equipe_id": "8",
+      "role": "joueur",
+      "club_id": 4,
+      "poste": "11 - Attaquant Droit",
+      "isBlesse": false,
+      "id": 11
+    },
+    {
+      "nom": "De La Fuente",
+      "prenom": "Konrad",
+      "naissance": "2001-07-16",
+      "equipe_id": "8",
+      "role": "joueur",
+      "club_id": 4,
+      "poste": "10 - Milieu offensif",
+      "isBlesse": false,
+      "id": 12
+    },
+    {
+      "nom": "Mandanda",
+      "prenom": "Steve",
+      "naissance": "1972-09-19",
+      "equipe_id": "8",
+      "role": "joueur",
+      "club_id": 4,
+      "poste": "1 - Gardien de but",
+      "isBlesse": true,
+      "id": 13
     }
   ],
   "clubs": [
@@ -90,18 +249,100 @@
       "ville": "Charleroi",
       "codepostal": "6000",
       "id": 2
+    },
+    {
+      "matricule": "mat03",
+      "nom": "Real Madrid",
+      "rue": "Avenue de Concha Espina",
+      "numero": "1",
+      "ville": "Madrid",
+      "codepostal": "28036",
+      "id": 3
+    },
+    {
+      "matricule": "mat04",
+      "nom": "Olympique de Marseille",
+      "rue": "Boulevard Michelet",
+      "numero": "3",
+      "ville": "Marseille",
+      "codepostal": "13008",
+      "id": 4
+    },
+    {
+      "matricule": "mat05",
+      "nom": "FC Barcelone",
+      "rue": "Avinguda Aristides Maillol",
+      "numero": "1",
+      "ville": "Barcelone",
+      "codepostal": "08028",
+      "id": 5
     }
   ],
   "equipes": [
     {
-      "categorie": "u7",
+      "categorie": "Professionnel",
       "club_id": 1,
       "id": 1
     },
     {
-      "categorie": "u5",
+      "categorie": "Espoir",
       "club_id": 1,
       "id": 2
+    },
+    {
+      "categorie": "U21",
+      "club_id": 1,
+      "id": 3
+    },
+    {
+      "categorie": "U19",
+      "club_id": 1,
+      "id": 4
+    },
+    {
+      "categorie": "U17",
+      "club_id": 1,
+      "id": 5
+    },
+    {
+      "categorie": "U15",
+      "club_id": 1,
+      "id": 6
+    },
+    {
+      "categorie": "Professionnel",
+      "club_id": 4,
+      "id": 7
+    },
+    {
+      "categorie": "U15",
+      "club_id": 4,
+      "id": 8
+    },
+    {
+      "categorie": "Professionnel",
+      "club_id": 2,
+      "id": 9
+    },
+    {
+      "categorie": "Espoir",
+      "club_id": 2,
+      "id": 10
+    },
+    {
+      "categorie": "U15",
+      "club_id": 2,
+      "id": 11
+    },
+    {
+      "categorie": "u17",
+      "club_id": 2,
+      "id": 12
+    },
+    {
+      "categorie": "u19",
+      "club_id": 2,
+      "id": 13
     }
   ]
 }

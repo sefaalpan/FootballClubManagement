@@ -1,44 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import md5 from 'md5-ts';
-import { merge } from 'rxjs';
-import { finalize, map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Equipe } from 'src/app/models/equipe.model';
-import { Coach, Joueur, User } from 'src/app/models/iuser.model';
+import { Coach, Joueur } from 'src/app/models/iuser.model';
 import { EquipeService } from 'src/app/services/equipe.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-gestion-joueurs',
-  templateUrl: './gestion-joueurs.component.html',
-  styleUrls: ['./gestion-joueurs.component.scss']
+  selector: 'app-manage-players',
+  templateUrl: './manage-players.component.html',
+  styleUrls: ['./manage-players.component.scss']
 })
-export class GestionJoueursComponent implements OnInit {
-
+export class ManagePlayersComponent implements OnInit {
   activForm = false;
-  registerForm = new FormGroup({});
-  joueurs: Joueur[] = [];
-  club_id: number = -1;
-  id: number = -1;
   activEditForm = false;
-  editForm = new FormGroup({});
-  joueur!: Joueur;
   postes: string[] = [];
-  equipes: Equipe[] = [];
-  equipesClub: Equipe[] = [];
-  equipesMap = new Map<Number, Equipe>();
-  user !: User;
+  joueurs: Joueur[] = [];
+  registerForm = new FormGroup({});
+  editForm = new FormGroup({});
+  equipe !: Equipe;
+  id: number = -1
+  joueur !: Joueur;
+  coach !: Coach;
+  
 
-  constructor(private us: UserService, private es: EquipeService,
-    private fb: FormBuilder,
-    private editfb: FormBuilder,
-    private router: Router) {
+  constructor(private fb: FormBuilder, private editfb: FormBuilder, private router : Router,
+    private us: UserService,
+    private es: EquipeService) {
     this.registerForm = this.fb.group({
       nom: new FormControl('', [Validators.required]),
       prenom: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
-      equipe: new FormControl('', [Validators.required]),
       poste: new FormControl('', [Validators.required]),
       isBlesse: new FormControl(false, [Validators.required]),
     })
@@ -46,7 +39,6 @@ export class GestionJoueursComponent implements OnInit {
       nom: new FormControl('', [Validators.required]),
       prenom: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
-      equipe: new FormControl('', [Validators.required]),
       poste: new FormControl('', [Validators.required]),
       isBlesse: new FormControl(false, [Validators.required]),
     })
@@ -54,40 +46,26 @@ export class GestionJoueursComponent implements OnInit {
 
   ngOnInit(): void {
     this.postes = this.us.initpostes();
-    this.user = JSON.parse(sessionStorage.getItem('token') as string);
+    this.coach = JSON.parse(sessionStorage.getItem('token') as string)
+    console.log(this.coach);
 
-    this.us.getJoueursFromClub(this.user.club_id as number).subscribe(datas => {
-      this.joueurs = datas
-    });
-    this.club_id = (JSON.parse(sessionStorage.getItem('token') as string)).club_id;
+    this.es.getEquipeById(this.coach.equipe_id as number).subscribe(e => this.equipe = e);
+    this.us.getJoueursFromEquipe(this.coach.equipe_id as number)
+      .subscribe(j => {
+        console.log(j);
+        this.joueurs = j
+      })
 
-    this.es.getEquipesClub(this.club_id)
-      .subscribe(e => {
-        this.equipesClub = e
-        this.initMapEquipes(this.equipesClub);
-        console.log(this.equipesMap);
-      });
-
-  }
-
-  initMapEquipes(equipes: Equipe[]) {
-    equipes.forEach(e => {
-      this.equipesMap.set(e.id, e);
-    })
   }
 
   supprimer(id: number) {
     this.us.deleteJoueur(id as number)
       .pipe(
-        mergeMap(() => this.us.getJoueursFromClub(this.user.club_id as number))
+        mergeMap(() => this.us.getJoueursFromEquipe(this.coach.equipe_id as number))
       )
       .subscribe(datas => this.joueurs = datas);
   }
-
-
   editer(id: number) {
-
-    // this.activEditForm = true;
     this.id = id as number;
 
     this.us.getJoueurById(id as number).subscribe(joueur => {
@@ -95,14 +73,13 @@ export class GestionJoueursComponent implements OnInit {
         "nom": joueur.nom,
         "prenom": joueur.prenom,
         "date": joueur.naissance as Date,
-        "equipe": joueur.equipe_id,
         "poste": joueur.poste,
         "isBlesse": joueur.isBlesse,
       });
       this.joueur = joueur;
     });
-  }
 
+  }
   submit() {
 
     if (this.registerForm.valid) {
@@ -112,30 +89,23 @@ export class GestionJoueursComponent implements OnInit {
       joueur.nom = this.registerForm.value.nom as string;
       joueur.prenom = this.registerForm.value.prenom as string;
       joueur.naissance = this.registerForm.value.date;
-      console.log(this.registerForm.value.equipe);
 
-      joueur.equipe_id = +(this.registerForm.value.equipe as number);
+      joueur.equipe_id = +(this.coach.equipe_id as number);
       joueur.role = 'joueur'
-      joueur.club_id = this.club_id;
+      joueur.club_id = this.coach.club_id;
       joueur.poste = this.registerForm.get('poste')?.value as string;
       joueur.isBlesse = this.registerForm.value.isBlesse;
       console.log(joueur.isBlesse);
 
-
       this.us.addJoueur(joueur)
         .pipe(
-          mergeMap(() => this.es.getEquipesClub(this.user.club_id as number)),
-          map(equip => this.initMapEquipes(equip)),
-          mergeMap(() => this.us.getJoueursFromClub(this.user.club_id as number)),
+          mergeMap(() => this.us.getJoueursFromEquipe(this.coach.equipe_id as number)),
         )
         .subscribe((datas) => {
           this.joueurs = datas;
-          console.log(this.equipesMap);
           this.registerForm.reset();
           this.activForm = false;
         })
-
-
     }
   }
 
@@ -147,24 +117,25 @@ export class GestionJoueursComponent implements OnInit {
       joueur.password = this.joueur.password;
       joueur.club_id = this.joueur.club_id;
       joueur.role = this.joueur.role;
-      joueur.equipe_id = +(this.editForm.value.equipe);
+      joueur.equipe_id =  +(this.coach.equipe_id as number)
 
       this.us.updateJoueur(this.id, joueur)
         .pipe(
-          mergeMap(() => this.es.getEquipesClub(this.user.club_id as number)),
-          map(equip => this.equipes = equip),
-          mergeMap(() => this.us.getJoueursFromClub(this.user.club_id as number)),
+          mergeMap(() => this.us.getJoueursFromEquipe(this.coach.equipe_id as number)),
+
         )
         .subscribe(datas => {
           this.joueurs = datas;
-          console.log(this.equipesMap);
-
           this.editForm.reset();
           this.activEditForm = false;
         })
     }
   }
-  affichPlayer(id: number) {
+  selection(){
+
+  }
+
+  affichPlayer(id : number){
     this.router.navigate(["player", id]);
   }
 

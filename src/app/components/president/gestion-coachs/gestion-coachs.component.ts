@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Coach, User } from 'src/app/models/iuser.model';
 import { UserService } from 'src/app/services/user.service';
-import { mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import md5 from 'md5-ts';
+import { Equipe } from 'src/app/models/equipe.model';
+import { EquipeService } from 'src/app/services/equipe.service';
 
 @Component({
   selector: 'app-gestion-coachs',
@@ -15,17 +17,24 @@ export class GestionCoachsComponent implements OnInit {
   activForm = false;
   registerForm = new FormGroup({});
   coachs: Coach[] = [];
-  club_id: number = -1;
   id: number = -1;
   activEditForm = false;
   editForm = new FormGroup({});
   coach!: Coach
   date = new Date();
-  constructor(private us: UserService, private fb: FormBuilder, private editfb: FormBuilder) {
+  user !: User;
+  equipesMap = new Map<Number, Equipe>();
+  equipes : Equipe[] = [];
+
+  constructor(private us: UserService,
+    private fb: FormBuilder,
+    private editfb: FormBuilder,
+    private es: EquipeService) {
     this.registerForm = this.fb.group({
       nom: new FormControl('', [Validators.required]),
       prenom: new FormControl('', [Validators.required]),
-      date: new FormControl(this.date, [Validators.required]),
+      date: new FormControl('', [Validators.required]),
+      equipe: new FormControl('', [Validators.required]),
       // date: new FormControl((new Date()).toISOString().substring(0,10)),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
@@ -38,18 +47,35 @@ export class GestionCoachsComponent implements OnInit {
       date: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       statut: new FormControl('', [Validators.required]),
+      equipe: new FormControl('', [Validators.required]),
     })
   }
 
-  ngOnInit(): void {      
-    this.us.getCoachs().subscribe(datas => this.coachs = datas);
-    this.club_id = (JSON.parse(localStorage.getItem('token') as string)).club_id;
+  ngOnInit(): void {
+    this.user = JSON.parse(sessionStorage.getItem('token') as string);
+    this.us.getCoachByClub(this.user.club_id as number)
+      .subscribe(datas => this.coachs = datas);
+
+    this.es.getEquipesClub(this.user.club_id as number)
+      .subscribe(e => {
+        this.initMapEquipes(e);
+        this.equipes=e;
+      });
+
+  }
+
+  initMapEquipes(equipes:Equipe[]){
+    equipes.forEach(e=>{
+      this.equipesMap.set(e.id, e);
+    })
   }
 
   supprimer(id: number | undefined) {
     this.us.deleteCoach(id as number)
       .pipe(
-        mergeMap(datas => this.us.getCoachs())
+        mergeMap(()=>this.es.getEquipesClub(this.user.club_id as number)),
+        map((e)=>this.initMapEquipes(e)),
+        mergeMap(() => this.us.getCoachs())
       )
       .subscribe(datas => this.coachs = datas);
   }
@@ -65,6 +91,7 @@ export class GestionCoachsComponent implements OnInit {
         "date": coach.naissance as Date,
         "email": coach.email,
         "statut": coach.statut,
+        "equipe": coach.equipe_id
       });
       this.coach = coach;
     });
@@ -74,28 +101,29 @@ export class GestionCoachsComponent implements OnInit {
 
     if (this.registerForm.valid) {
 
-      let coach : Coach = {};
+      let coach: Coach = {};
       coach.nom = this.registerForm.get('nom')?.value as string;
       coach.prenom = this.registerForm.get('prenom')?.value as string;
       coach.naissance = this.registerForm.get('date')?.value;
       coach.email = this.registerForm.get('email')?.value as string;
       coach.password = md5(this.registerForm.get('password')?.value as string);
       coach.role = 'coach'
-      coach.club_id = this.club_id;
+      coach.club_id = this.user.club_id as number
       coach.statut = this.registerForm.get('statut')?.value as string;
+      coach.equipe_id = this.registerForm.value.equipe as number;
 
 
       this.us.addCoach(coach)
         .pipe(
-          mergeMap(datas => this.us.getCoachs())
+          mergeMap(()=>this.es.getEquipesClub(this.user.club_id as number)),
+          map((e)=>this.initMapEquipes(e)),
+          mergeMap(() => this.us.getCoachByClub(this.user.club_id as number))
         )
         .subscribe((datas) => {
           this.coachs = datas;
           this.registerForm.reset();
           this.activForm = false;
-        }
-        )
-
+        })
 
     }
   }
@@ -108,10 +136,13 @@ export class GestionCoachsComponent implements OnInit {
       coach.password = this.coach.password;
       coach.club_id = this.coach.club_id;
       coach.role = this.coach.role;
+      coach.equipe_id = this.editForm.value.equipe as number;
 
       this.us.updateCoach(this.id, coach)
         .pipe(
-          mergeMap(datas => this.us.getCoachs())
+          mergeMap(()=>this.es.getEquipesClub(this.user.club_id as number)),
+          map((e)=>this.initMapEquipes(e)),
+          mergeMap(() => this.us.getCoachByClub(this.user.club_id as number))
         )
         .subscribe(datas => {
           this.coachs = datas;

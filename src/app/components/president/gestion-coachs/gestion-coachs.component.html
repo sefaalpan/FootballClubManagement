@@ -1,26 +1,30 @@
-<p>gestion-coachs works!</p>
-<button routerLink="/president">
-    Revenir sur la page Président
-</button>
-<div>
+<div class="container">
 
-    <button (click)="activForm=!activForm">
-        <span *ngIf="!activForm">
-            Ajouter un coach
-        </span>
-        <span *ngIf="activForm">
-            Revenir sur la liste de coachs
-        </span>
+    <button routerLink="/president">
+        Revenir sur la page Président
     </button>
+    <button (click)="activForm=!activForm" *ngIf="!activForm">
+        Ajouter un coach
+    </button>
+
+    <button *ngIf="activForm" (click)="activForm=!activForm">
+        Revenir sur la liste de coachs
+    </button>
+
+    <h3 style="text-align: center;margin-top: 30px;" *ngIf="coachs.length===0">
+        Pas encore de coachs inscrits
+    </h3>
 </div>
 
-<table *ngIf="!activForm">
-    <caption>Gérer les coachs</caption>
+
+<h2>Gérer les coachs</h2>
+<table *ngIf="!activForm && coachs.length>0">
     <tr>
         <th>Id</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Statut</th>
+        <th>Equipe</th>
         <th colspan="2">Actions</th>
     </tr>
 
@@ -29,92 +33,133 @@
         <td>{{coach.nom}}</td>
         <td>{{coach.prenom}}</td>
         <td>{{coach.statut}}</td>
+        <td *ngIf="coach.equipe_id">
+            <!-- Le + sert a caster en Int car bizarrement c'est un string qui est inséré en DB -->
+            {{equipesMap.get( +(coach.equipe_id) ?? -1)?.categorie}}
+        </td>
+        <td *ngIf="!coach.equipe_id">
+            No data
+        </td>
+
         <td>
-            <button (click)="supprimer(coach.id)">X</button>
+            <button (click)="supprimer(coach.id)">Delete</button>
         </td>
         <td>
             <button (click)="activEditForm=!activEditForm;editer(coach.id ?? -1)">Edit</button>
         </td>
-
     </tr>
 </table>
 
 
 
-    <form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
-        
+<form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
+
+    <div>
+        <label>Nom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="nom">
+    </div>
+    <div>
+        <label>Prénom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="prenom">
+    </div>
+
+    <div>
+        <label>Date de naissance</label>
+    </div>
+    <div>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Email</label>
+    </div>
+
+    <div>
+        <input type="text" formControlName="email">
+    </div>
+    <div>
+        <label>Password</label>
+    </div>
+    <div>
+        <input type="password" formControlName="password">
+
+    </div>
+    <div>
+        <label>Confirmation password</label>
+    </div>
+    <div>
+        <input type="password" formControlName="password2">
+    </div>
+    <div>
+        <label>Equipe</label>
+    </div>
+    <div>
+
+        <select formControlName="equipe">
+            <option *ngFor="let equipe of equipes" value="{{equipe.id}}">
+                {{equipe.categorie}}
+            </option>
+
+        </select>
+    </div>
+    <div>
+        <label>Statut</label>
+    </div>
+    <div>
+
+        <select formControlName='statut' required>
+            <option value="principal">Principal</option>
+            <option value="adjoint">Adjoint</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Ajouter" [disabled]="(!registerForm.valid) 
+            || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
+    </div>
+
+</form>
+
+<form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
+
+    <div>
+
         <div>
-
-            <div>
-                <label>Nom</label>
-                <input type="text" formControlName="nom">
-            </div>
-            <div>
-                <label>Prénom</label>
-                <input type="text" formControlName="prenom">
-            </div>
-            <div>
-                <label>Date de naissance</label>
-                <input type="date"  formControlName="date">
-            </div>
-            <div>
-                <label>Email</label>
-                <input type="text" formControlName="email">
-            </div>
-            <div>
-                <label>Password</label>
-                <input type="password" formControlName="password">
-            </div>
-            <div>
-                <label>Confirmation password</label>
-                <input type="password" formControlName="password2">
-            </div>
-
-            <div>
-                <label>Statut</label>
-                <select formControlName='statut' required>
-                    <option value="principal">Principal</option>
-                    <option value="adjoint">Adjoint</option>
-                </select>
-            </div>
-            <div>
-                <input type="submit" value="Ajouter" [disabled]="(!registerForm.valid) 
-                || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
-            </div>
+            <label>Nom</label>
+            <input type="text" formControlName="nom">
         </div>
-    </form>
-
-    <form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
-        
         <div>
-
-            <div>
-                <label>Nom</label>
-                <input type="text" formControlName="nom">
-            </div>
-            <div>
-                <label>Prénom</label>
-                <input type="text" formControlName="prenom">
-            </div>
-            <div>
-                <label>Date de naissance</label>
-                <input type="date" formControlName="date">
-            </div>
-            <div>
-                <label>Email</label>
-                <input type="text" formControlName="email">
-            </div>
-
-            <div>
-                <label>Statut</label>
-                <select formControlName='statut' >
-                    <option value="principal">Principal</option>
-                    <option value="adjoint">Adjoint</option>
-                </select>
-            </div>
-            <div>
-                <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
-            </div>
+            <label>Prénom</label>
+            <input type="text" formControlName="prenom">
         </div>
-    </form>
+        <div>
+            <label>Date de naissance</label>
+            <input type="date" formControlName="date">
+        </div>
+        <div>
+            <label>Email</label>
+            <input type="text" formControlName="email">
+        </div>
+        <div>
+            <label>Equipe</label>
+            <select formControlName="equipe">
+                <option *ngFor="let equipe of equipes" value="{{equipe.id}}">
+                    {{equipe.categorie}}
+                </option>
 
+            </select>
+        </div>
+        <div>
+            <label>Statut</label>
+            <select formControlName='statut'>
+                <option value="principal">Principal</option>
+                <option value="adjoint">Adjoint</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+        </div>
+    </div>
+</form>

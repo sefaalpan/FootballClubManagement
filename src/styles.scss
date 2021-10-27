@@ -2,9 +2,128 @@
 *{
     background-color: rgb(31, 29, 29);
     color: rgb(199, 199, 199);
-    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    
+}
+* :not(h1,h2,h3,h4){
+    font-size: 18px;
+}
+h1,h2,h3,h4{
+    text-align: center;
 }
 input{
     background-color: rgb(131, 131, 131);
     color: black;
+}
+.container{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+button>span, button, input[type=submit], input[type=button] {
+    background-color: rgb(179, 179, 179);
+    border-radius: 10px;
+    padding: 10px 10px;
+    color: black;
+    transition: 0.8s;
+    display: block;
+    margin: auto;
+    margin-top:10px;
+    margin-bottom: 10px;
+    width: fit-content
+}
+td>button {
+    margin:0;
+}
+button>span:hover , button:hover , input[type=submit]:hover, input[type=button]:hover {
+    background-color: rgb(117, 117, 117);
+    border-radius: 10px;
+    padding: 10px 10px;
+    color: black;
+}
+
+
+table, content{
+    border: solid white 1px;
+    border-radius: 10px;
+    padding: 1rem;
+    display: block;
+    margin: auto;
+    width: fit-content;
+    border-collapse: collapse;
+    border-spacing: 0;
+  
+}
+tr, td, content>div{
+    padding:0.2rem 1rem;
+    // padding-top: 0.5rem;
+}
+
+form{
+    margin: auto;
+    border: solid white 1px;
+    border-radius: 10px;
+    width: 45%;
+    padding: 30px;
+    margin-bottom: 2rem;
+}
+form > div {
+    display: block;
+}
+form > div > label {
+    padding: 12px 12px 12px 0;
+    // margin: 20px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: inline-block;
+}
+select, option{
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+
+}
+form > div > input {
+    width: 97%;
+    // margin-left: 100px;
+    padding: 8px 10px;
+    // border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.cards{
+    display: flex;
+    flex-direction: row;
+    min-height: 15rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+.cards :hover {
+    color:black;
+    background-color: rgb(160, 160, 160);
+    
+}
+
+.cards > div {
+    padding: 40px;
+    margin: 10px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 10px;
+    border: solid white 1px;
+    transition: 0.5s;
+}
+
+li{
+    list-style-type: none;
+}
+label{
+    font-weight: bolder;
+}
+
+td:last-child{
+    padding: 0;
 }

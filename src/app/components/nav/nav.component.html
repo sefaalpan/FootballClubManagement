@@ -1,18 +1,13 @@
 <nav>
     <ul>
+        <li>
+            <a routerLink="home">
+                Home
+            </a>
+        </li>
         <li *ngIf="!isConnected">
             <a routerLink='login'>
                 S'identifier
-            </a>
-        </li>
-        <li>
-            <a routerLink='register'>
-                S'enregistrer
-            </a>
-        </li>
-        <li *ngIf="isConnected">
-            <a (click)="deconnexion()">
-                Déconnexion
             </a>
         </li>
         <li>
@@ -20,19 +15,24 @@
                 Club
             </a>
         </li>
-        <li>
-            <a routerLink="sign-up">
-                Sign-up
-            </a>
-        </li>
-        <li>
+        <li *ngIf="user && user.role==='president'"> 
             <a routerLink="president">
                 Président
             </a>
         </li>
-        <li>
+        <li *ngIf="!isConnected">
             <a routerLink="inscription">
                 Inscription
+            </a>
+        </li>
+        <li>
+            <a routerLink="compte">
+                Compte
+            </a>
+        </li>
+        <li *ngIf="isConnected">
+            <a (click)="deconnexion()">
+                Déconnexion
             </a>
         </li>
     </ul>

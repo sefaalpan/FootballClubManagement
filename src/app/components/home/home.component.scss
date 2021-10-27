@@ -1,0 +1,24 @@
+.cards{
+    display: flex;
+    flex-direction: row;
+    min-height: 15rem;
+}
+
+
+.cards :hover {
+    color:black;
+    background-color: rgb(160, 160, 160);
+    cursor: pointer;
+    
+}
+
+.cards > div {
+    padding: 40px;
+    margin: 10px;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    border-radius: 10px;
+    border: solid white 1px;
+    transition: 0.5s;
+}

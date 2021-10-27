@@ -3,35 +3,48 @@
 </button>
 <div>
 
-    <button (click)="activForm=!activForm">
-        <span *ngIf="!activForm">
-            Ajouter un joueur
-        </span>
-        <span *ngIf="activForm">
-            Revenir sur la liste des joueurs
-        </span>
+    <button (click)="activForm=!activForm" *ngIf="!activForm">
+        Ajouter un joueur
     </button>
+
+    <button *ngIf="activForm" (click)="activForm=!activForm">
+        Revenir sur la liste de joueurs
+    </button>
+
 </div>
 
-<table *ngIf="!activForm">
-    <caption>Gérer les joueurs</caption>
+<h3 style="text-align: center;margin-top: 30px;" *ngIf="joueurs.length===0">
+    Pas encore de joueurs inscrits
+</h3>
+
+<h2>Gérer les joueurs</h2>
+<table *ngIf="!activForm && joueurs.length>0">
     <tr>
         <th>Id</th>
         <th>Nom</th>
         <th>Prénom</th>
         <th>Poste</th>
         <th>Blessé</th>
+        <th>Équipe</th>
         <th colspan="2">Actions</th>
     </tr>
 
-    <tr *ngFor="let joueur of joueurs">
+    <tr *ngFor="let joueur of joueurs; let i = index" (click)="affichPlayer(joueur.id ?? -1)">
         <td>{{joueur.id}}</td>
         <td>{{joueur.nom}}</td>
         <td>{{joueur.prenom}}</td>
         <td>{{joueur.poste}}</td>
-        <td>{{joueur.isBlesse}}</td>
+        <td *ngIf="joueur.isBlesse===true">Oui</td>
+        <td *ngIf="joueur.isBlesse===false">Non</td>
+        <td *ngIf="joueur.equipe_id">
+            <!-- Le + sert a caster en Int car bizarrement c'est un string qui est inséré en DB -->
+            {{equipesMap.get( +(joueur.equipe_id) ?? -1)?.categorie}}
+        </td>
+        <td *ngIf="!joueur.equipe_id">
+           No data
+        </td>
         <td>
-            <button (click)="supprimer(joueur.id)">X</button>
+            <button (click)="supprimer(joueur.id ?? -1)">Delete</button>
         </td>
         <td>
             <button (click)="activEditForm=!activEditForm;editer(joueur.id ?? -1)">Edit</button>
@@ -44,34 +57,40 @@
 
 <form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
 
-    <div>
         <div>
             <label>Nom</label>
+        </div>
+        <div>
+            
             <input type="text" formControlName="nom">
         </div>
         <div>
             <label>Prénom</label>
+            
+        </div>
+        <div>
             <input type="text" formControlName="prenom">
         </div>
         <div>
             <label>Date de naissance</label>
+        </div>
+        <div>
             <input type="date" formControlName="date">
         </div>
-        <!-- <div>
-            <label>Email</label>
-            <input type="text" formControlName="email">
+        <div>
+            <label>Equipe</label>
         </div>
         <div>
-            <label>Password</label>
-            <input type="password" formControlName="password">
+            <select formControlName="equipe">
+                <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
+                    {{equipe.categorie}}
+                </option>
+            </select>
         </div>
-        <div>
-            <label>Confirmation password</label>
-            <input type="password" formControlName="password2">
-        </div> -->
-
         <div>
             <label>Poste</label>
+        </div>
+        <div>
             <select formControlName="poste">
                 <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
                     {{poste}}
@@ -80,6 +99,8 @@
         </div>
         <div>
             <label>Le joueur est-il blessé ?</label>
+        </div>
+        <div>
             <div class="col">
                 <label>
                     <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
@@ -103,7 +124,6 @@
             <input type="submit" value="S'enregistrer" [disabled]="(!registerForm.valid) 
             || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
         </div>
-    </div>
 </form>
 
 <form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
@@ -112,22 +132,36 @@
 
         <div>
             <label>Nom</label>
+        </div>
+        <div>
             <input type="text" formControlName="nom">
         </div>
         <div>
             <label>Prénom</label>
+        </div>
+        <div>
             <input type="text" formControlName="prenom">
         </div>
         <div>
             <label>Date de naissance</label>
+        </div>    
+        <div>
             <input type="date" formControlName="date">
         </div>
-        <!-- <div>
-            <label>Email</label>
-            <input type="text" formControlName="email">
-        </div> -->
+        <div>
+            <label>Equipe</label>
+        </div>
+        <div>
+            <select formControlName="equipe">
+                <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
+                    {{equipe.categorie}}
+                </option>
+            </select>
+        </div>
         <div>
             <label>Poste</label>
+        </div>
+        <div>
             <select formControlName="poste">
                 <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
                     {{poste}}
