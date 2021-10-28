@@ -29,8 +29,6 @@ export class UserService {
       datas.forEach(d => this.users.push(d));
     });
 
-    console.log(this.users);
-
   }
 
   getPresidents(): Observable<President[]> {
@@ -131,25 +129,21 @@ export class UserService {
       let u = this.users[i];
       if (u.email === email && u.password === mdp) {
         user = u;
-        console.log(u);
-        console.log(user);
         i = this.users.length;
       }
     }
 
     if (user != undefined) {
-      console.log(user);
 
       this.currentUser = user;
-      console.log(this.currentUser.role);
 
-      console.log("Hello from service " + this.currentUser.prenom + " "
-        + this.currentUser.nom);
+
+
 
       // let hash = this.generateToken(this.currentUser);
       // localStorage.setItem('token', hash);
       sessionStorage.setItem('token', JSON.stringify(this.currentUser));
-      console.log(sessionStorage.getItem('token'));
+
       this.emitUser();
       return this.currentUser;
     }
@@ -173,8 +167,6 @@ export class UserService {
     return md5(user.email as string + user.password + user.role + user.nom + user.prenom);
   }
   getDiscrimatorValue(): string {
-    console.log(this.currentUser.role);
-
     return this.currentUser.role as string;
   }
 

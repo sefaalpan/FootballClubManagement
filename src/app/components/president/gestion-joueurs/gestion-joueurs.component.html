@@ -29,161 +29,162 @@
         <th colspan="2">Actions</th>
     </tr>
 
-    <tr *ngFor="let joueur of joueurs; let i = index" (click)="affichPlayer(joueur.id ?? -1)">
-        <td>{{joueur.id}}</td>
-        <td>{{joueur.nom}}</td>
-        <td>{{joueur.prenom}}</td>
-        <td>{{joueur.poste}}</td>
-        <td *ngIf="joueur.isBlesse===true">Oui</td>
-        <td *ngIf="joueur.isBlesse===false">Non</td>
-        <td *ngIf="joueur.equipe_id">
+    <tr *ngFor="let joueur of joueurs; let i = index" (click)="afficherPlayer(joueur.id ?? -1)">
+        <td (click)="affichPlayer=true;">{{joueur.id}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.nom}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.prenom}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.poste}}</td>
+        <td (click)="affichPlayer=true;" *ngIf="joueur.isBlesse===true">Oui</td>
+        <td (click)="affichPlayer=true;" *ngIf="joueur.isBlesse===false">Non</td>
+        <td (click)="affichPlayer=true;" *ngIf="joueur.equipe_id">
             <!-- Le + sert a caster en Int car bizarrement c'est un string qui est inséré en DB -->
             {{equipesMap.get( +(joueur.equipe_id) ?? -1)?.categorie}}
         </td>
-        <td *ngIf="!joueur.equipe_id">
-           No data
-        </td>
-        <td>
-            <button (click)="supprimer(joueur.id ?? -1)">Delete</button>
-        </td>
-        <td>
-            <button (click)="activEditForm=!activEditForm;editer(joueur.id ?? -1)">Edit</button>
+        <td (click)="affichPlayer=false;" *ngIf="!joueur.equipe_id">
+            No data
         </td>
 
+        <td>
+            <input type="button" value="Delete" (click)="affichPlayer=false;supprimer(joueur.id ?? -1)" />
+            <!-- <button >Delete</button> -->
+        </td>
+        <td>
+            <input type="button" value="Edit"
+                (click)="affichPlayer=false;activEditForm=!activEditForm;editer(joueur.id ?? -1)" />
+            <!-- <button (click)="activEditForm=!activEditForm;editer(joueur.id ?? -1)">Edit</button> -->
+        </td>
     </tr>
 </table>
 
 
-
 <form [formGroup]="registerForm" (ngSubmit)="submit()" *ngIf="activForm">
 
-        <div>
-            <label>Nom</label>
-        </div>
-        <div>
-            
-            <input type="text" formControlName="nom">
-        </div>
-        <div>
-            <label>Prénom</label>
-            
-        </div>
-        <div>
-            <input type="text" formControlName="prenom">
-        </div>
-        <div>
-            <label>Date de naissance</label>
-        </div>
-        <div>
-            <input type="date" formControlName="date">
-        </div>
-        <div>
-            <label>Equipe</label>
-        </div>
-        <div>
-            <select formControlName="equipe">
-                <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
-                    {{equipe.categorie}}
-                </option>
-            </select>
-        </div>
-        <div>
-            <label>Poste</label>
-        </div>
-        <div>
-            <select formControlName="poste">
-                <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
-                    {{poste}}
-                </option>
-            </select>
-        </div>
-        <div>
-            <label>Le joueur est-il blessé ?</label>
-        </div>
-        <div>
-            <div class="col">
-                <label>
-                    <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
-                    Oui
-                </label>
+    <div>
+        <label>Nom</label>
+    </div>
+    <div>
 
-                <label>
-                    <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
-                    Non
-                </label>
-            </div>
+        <input type="text" formControlName="nom">
+    </div>
+    <div>
+        <label>Prénom</label>
 
-            <!-- <label>Le joueur est-il blessé ?</label>
+    </div>
+    <div>
+        <input type="text" formControlName="prenom">
+    </div>
+    <div>
+        <label>Date de naissance</label>
+    </div>
+    <div>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Equipe</label>
+    </div>
+    <div>
+        <select formControlName="equipe">
+            <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
+                {{equipe.categorie}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Poste</label>
+    </div>
+    <div>
+        <select formControlName="poste">
+            <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
+                {{poste}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Le joueur est-il blessé ?</label>
+    </div>
+    <div>
+        <div class="col">
+            <label>
+                <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
+                Oui
+            </label>
+
+            <label>
+                <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
+                Non
+            </label>
+        </div>
+
+        <!-- <label>Le joueur est-il blessé ?</label>
             <div formControlName="isBlesse">
                 <input type="radio" value="Oui">
                 <br>
                 <input type="radio" value="Non">
             </div> -->
-        </div>
-        <div>
-            <input type="submit" value="S'enregistrer" [disabled]="(!registerForm.valid) 
+    </div>
+    <div>
+        <input type="submit" value="S'enregistrer" [disabled]="(!registerForm.valid) 
             || !(registerForm.get('password')?.value === registerForm.get('password2')?.value)">
-        </div>
+    </div>
 </form>
 
 <form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
 
+
     <div>
+        <label>Nom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="nom">
+    </div>
+    <div>
+        <label>Prénom</label>
+    </div>
+    <div>
+        <input type="text" formControlName="prenom">
+    </div>
+    <div>
+        <label>Date de naissance</label>
+    </div>
+    <div>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Equipe</label>
+    </div>
+    <div>
+        <select formControlName="equipe">
+            <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
+                {{equipe.categorie}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Poste</label>
+    </div>
+    <div>
+        <select formControlName="poste">
+            <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
+                {{poste}}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label>Le joueur est-il blessé ?</label>
+        <div class="col">
+            <label>
+                <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
+                Oui
+            </label>
 
-        <div>
-            <label>Nom</label>
-        </div>
-        <div>
-            <input type="text" formControlName="nom">
-        </div>
-        <div>
-            <label>Prénom</label>
-        </div>
-        <div>
-            <input type="text" formControlName="prenom">
-        </div>
-        <div>
-            <label>Date de naissance</label>
-        </div>    
-        <div>
-            <input type="date" formControlName="date">
-        </div>
-        <div>
-            <label>Equipe</label>
-        </div>
-        <div>
-            <select formControlName="equipe">
-                <option *ngFor="let equipe of equipesClub" value="{{equipe.id}}">
-                    {{equipe.categorie}}
-                </option>
-            </select>
-        </div>
-        <div>
-            <label>Poste</label>
-        </div>
-        <div>
-            <select formControlName="poste">
-                <option *ngFor='let poste of postes; let i = index' value="{{poste}}">
-                    {{poste}}
-                </option>
-            </select>
-        </div>
-        <div>
-            <label>Le joueur est-il blessé ?</label>
-            <div class="col">
-                <label>
-                    <input type="radio" [value]="true" name="isBlesse" formControlName="isBlesse">
-                    Oui
-                </label>
-
-                <label>
-                    <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
-                    Non
-                </label>
-            </div>
-        </div>
-        <div>
-            <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+            <label>
+                <input type="radio" [value]="false" name="isBlesse" formControlName="isBlesse">
+                Non
+            </label>
         </div>
     </div>
+    <div>
+        <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+    </div>
+
 </form>

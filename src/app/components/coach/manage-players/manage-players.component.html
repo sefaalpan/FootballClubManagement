@@ -16,17 +16,19 @@
         <th colspan="2">Actions</th>
     </tr>
 
-    <tr *ngFor="let joueur of joueurs; let i = index" (click)="affichPlayer(joueur.id ?? -1)">
-        <td>{{joueur.id}}</td>
-        <td>{{joueur.nom}}</td>
-        <td>{{joueur.prenom}}</td>
-        <td>{{joueur.poste}}</td>
-        <td *ngIf="joueur.isBlesse===true">Oui</td>
-        <td *ngIf="joueur.isBlesse===false">Non</td>
-        <td>
+    <tr *ngFor="let joueur of joueurs; let i = index" (click)="afficherPlayer(joueur.id ?? -1)">
+        
+        <td (click)="affichPlayer=true;">{{joueur.id}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.nom}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.prenom}}</td>
+        <td (click)="affichPlayer=true;">{{joueur.poste}}</td>
+        <td (click)="affichPlayer=true;" *ngIf="joueur.isBlesse===true">Oui</td>
+        <td (click)="affichPlayer=true;" *ngIf="joueur.isBlesse===false">Non</td>
+        
+        <td (click)="affichPlayer=false;">
             <button (click)="supprimer(joueur.id ?? -1)">Delete</button>
         </td>
-        <td>
+        <td (click)="affichPlayer=false;">
             <button (click)="activEditForm=!activEditForm;editer(joueur.id ?? -1)">Edit</button>
         </td>
     </tr>

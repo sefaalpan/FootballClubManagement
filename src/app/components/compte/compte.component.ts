@@ -36,18 +36,13 @@ export class CompteComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(sessionStorage.getItem('token') as string);
-    console.log(this.user);
     
     if (this.user.role === 'coach') {
       this.coach = this.user as Coach;
       this.cs.getClubById(this.coach.club_id as number).
      
       subscribe(c => {
-        console.log(this.coach.id);
-        
-        this.club = c
-        console.log(c);
-        
+        this.club = c       
       });
 
       this.es.getEquipeById(this.coach.equipe_id as number)
@@ -56,12 +51,8 @@ export class CompteComponent implements OnInit {
     else {
 
       this.cs.getClubById(this.user.club_id as number).
-      subscribe(c => {
-        console.log(this.user.id);
-        
-        this.club = c
-        console.log(c);
-        
+      subscribe(c => {        
+        this.club = c       
       });
       
     }
@@ -74,7 +65,6 @@ export class CompteComponent implements OnInit {
       if (old === this.user.password) {
         let nvpwd = this.form.value.nouveaupassword as string;
         nvpwd = md5(nvpwd);
-        console.log(nvpwd);
         
         this.coach.password=nvpwd;
         if (this.user.role === 'coach') {

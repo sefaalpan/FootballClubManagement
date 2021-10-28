@@ -1,6 +1,6 @@
 
 
-<div class="container" *ngIf="joueur">
+<div class="container" *ngIf="joueur && autorisation">
     <h2>Informations personnelles</h2>
 
     <div>
@@ -8,10 +8,11 @@
     </div>
     <div>
         <img src="../../../assets/images/{{joueur.prenom | lowercase}}_{{joueur.nom | lowercase}}.jpeg" />
+
         <!-- <img src="../../../assets/images/dimitri_payet.jpeg"/> -->
 
-        <!-- Importer un fichier 
-        <div [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Importer un fichier  -->
+        <!-- <div [formGroup]="form" (ngSubmit)="submit()">
             <div *ngIf="imageSrc === ''">
                 <input formControlName="file" id="file" type="file" class="form-control"
                     (change)="onFileChange($event)" accept="image/png, image/jpeg, image/jpg">

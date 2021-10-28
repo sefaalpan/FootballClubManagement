@@ -1,11 +1,12 @@
 <div [ngStyle]="{'text-align': 'center'}" class="container">
 
     <h1>Football Club Management</h1>
+    <h2>Bienvenue {{currentuser.prenom}} {{currentuser.nom}} </h2>
     <h3 *ngIf="currentuser.role==='coach' && club && equipe">
-        Bienvenue {{currentuser.role}} de {{club.nom}} de l'équipe {{equipe.categorie}}
+         {{currentuser.role | titlecase}} de {{club.nom}} de l'équipe {{equipe.categorie}}
     </h3>
     <h3 *ngIf="currentuser.role==='president' && club">
-        Bienvenue {{currentuser.role}} de {{club.nom}}
+        {{currentuser.role | titlecase}} de {{club.nom}}
     </h3>
 </div>
 

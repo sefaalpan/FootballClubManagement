@@ -124,42 +124,42 @@
 
 <form [formGroup]="editForm" (ngSubmit)="submitEdit()" *ngIf="activEditForm">
 
+
+
     <div>
-
-        <div>
-            <label>Nom</label>
-            <input type="text" formControlName="nom">
-        </div>
-        <div>
-            <label>Prénom</label>
-            <input type="text" formControlName="prenom">
-        </div>
-        <div>
-            <label>Date de naissance</label>
-            <input type="date" formControlName="date">
-        </div>
-        <div>
-            <label>Email</label>
-            <input type="text" formControlName="email">
-        </div>
-        <div>
-            <label>Equipe</label>
-            <select formControlName="equipe">
-                <option *ngFor="let equipe of equipes" value="{{equipe.id}}">
-                    {{equipe.categorie}}
-                </option>
-
-            </select>
-        </div>
-        <div>
-            <label>Statut</label>
-            <select formControlName='statut'>
-                <option value="principal">Principal</option>
-                <option value="adjoint">Adjoint</option>
-            </select>
-        </div>
-        <div>
-            <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
-        </div>
+        <label>Nom</label>
+        <input type="text" formControlName="nom">
     </div>
+    <div>
+        <label>Prénom</label>
+        <input type="text" formControlName="prenom">
+    </div>
+    <div>
+        <label>Date de naissance</label>
+        <input type="date" formControlName="date">
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="text" formControlName="email">
+    </div>
+    <div>
+        <label>Equipe</label>
+        <select formControlName="equipe">
+            <option *ngFor="let equipe of equipes" value="{{equipe.id}}">
+                {{equipe.categorie}}
+            </option>
+
+        </select>
+    </div>
+    <div>
+        <label>Statut</label>
+        <select formControlName='statut'>
+            <option value="principal">Principal</option>
+            <option value="adjoint">Adjoint</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Enregistrer" [disabled]="editForm.invalid">
+    </div>
+
 </form>

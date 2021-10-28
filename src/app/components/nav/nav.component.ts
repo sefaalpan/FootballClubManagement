@@ -10,26 +10,24 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class NavComponent implements OnInit {
 
-  isConnected = this.us.loggedIn();
+  isConnected = false;
   user !: User;
 
   constructor(private router : Router, private us : UserService) { }
 
   ngOnInit(): void {
-    console.log(this.isConnected);   
     this.user = JSON.parse(sessionStorage.getItem('token') as string)
     
     this.us.myUserSubject.subscribe((cu: User) => {
       this.user = cu;
-      console.log(cu);
-      
       this.isConnected=true;
     });
   }
 
   deconnexion(){
-    this.isConnected = !this.isConnected;
+    this.isConnected = false;
     this.us.deconnecter();
+    this.user={};
     // localStorage.removeItem('token');
     this.router.navigate(['login']);
 

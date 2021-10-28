@@ -17,10 +17,7 @@ export class UsersService {
 
   
 
-  constructor(private httpclient : HttpClient) {
-    // this.users.push(this.president);
-    // console.log(this.president);
-  }
+  constructor(private httpclient : HttpClient) { }
 
   getCurrentUser(): User {
     return this.currentUser;

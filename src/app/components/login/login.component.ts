@@ -40,10 +40,8 @@ export class LoginComponent implements OnInit {
     let email = this.loginForm.get("email")?.value;
     let password = this.loginForm.value.password;
     password = md5(password);
-    console.log(" login PWD : "+password);
     
     this.user = this.us.login(email, password);
-    console.log(this.user);
 
     if (this.user) {
       this.loginForm.reset();

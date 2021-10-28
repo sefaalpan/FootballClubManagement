@@ -37,15 +37,7 @@ export class InscriptionComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    this.us.getPresidentByEmail('t@t')
-      .pipe(
-        finalize(() => console.log(this.president))
-      )
-      .subscribe(p => this.president = p[0]);
-
-
-  }
+  ngOnInit(): void {}
 
   submit() {
 
@@ -57,22 +49,15 @@ export class InscriptionComponent implements OnInit {
       let email = this.registerForm.value.email as string;
       let password = this.registerForm.value.password as string;
       password = md5(password);
-      // console.log(password);
 
       let role = this.registerForm.value.role as string;
 
       let matricule = this.registerForm.value.club as string;
       let club !: Club;
-      console.log("kikou");
       
       this.cs.getClubByMatricule(matricule).subscribe((c) => {
-        console.log(c);
         
         club = c[0] as Club;
-        console.log(c);
-        console.log(club);
-        // console.log(club.id as number);
-        console.log(club);
         
         if (club) {
           console.log('le club existe deja');
@@ -83,8 +68,6 @@ export class InscriptionComponent implements OnInit {
           this.us.getClubPresident(club.id).subscribe(p => {
 
             president = p[0] as President;
-            console.log(p);
-            console.log(president);
             
             if (president) {
               console.log(club + " a deja un prsident " + president);
@@ -97,7 +80,6 @@ export class InscriptionComponent implements OnInit {
               //check si le president existe dèjà
               president = {} as President;
               this.us.getPresidentByEmail(email).subscribe(p => {
-                console.log(p);
                 
                 president = p[0];
                 if (president) {
@@ -128,7 +110,6 @@ export class InscriptionComponent implements OnInit {
                     //On pourrait rediriger vers login en completant l'input
                     // this.router.navigate(['login', email]);
                     console.log(club + " a maintenant un président " + president);
-                    console.log(president);
 
                     this.router.navigate(['login', president.email]);
                   })
@@ -149,7 +130,6 @@ export class InscriptionComponent implements OnInit {
           let president!: President;
           this.us.getPresidentByEmail(email).subscribe(p => {
             president = p[0]
-            console.log(president);
 
             if (president) {
               console.log("no club president existe");
@@ -174,26 +154,15 @@ export class InscriptionComponent implements OnInit {
               president.password = password;
               president.role = role;
 
-              console.log(president);
 
               this.us.addPresident(president)
                 .pipe(
                   // mergeMap(p => this.us.getPresidentByEmail(president.email as string)),
                   finalize(() => {
-                    console.log(president)
                     this.router.navigate(['create-club/', president.id + '/', matricule]);
                   })
                 )
                 .subscribe((p) => president = p);
-
-
-
-              // this.us.getPresidentByEmail(president.email as string)
-              //   .subscribe(p => this.president = p);
-
-              // console.log(this.president);
-              // console.log(president.id);
-
 
 
             }
@@ -201,125 +170,13 @@ export class InscriptionComponent implements OnInit {
 
 
           });
-          //check si le president a deja un club
-          //creation president 
-          //redirect 
+      
         }
 
       });
 
 
     }
-
-
-
-
-
-    // if (!this.registerForm.valid) {
-
-    //   let isPresident = false;
-
-    //   let role = this.registerForm.get('role')?.value as string
-    //   let password = this.registerForm.get('password')?.value
-    //   password = md5(password);
-
-    //   let user: President = {};
-    //   let presidentExist !: President;
-    //   console.log(this.registerForm.value.nom as string);
-
-    //   user.nom = this.registerForm.value.nom as string;
-    //   console.log(user.nom)
-
-    //   // user.nom = this.registerForm.get('nom')?.value as string;
-    //   user.prenom = this.registerForm.get('prenom')?.value as string;
-    //   user.naissance = this.registerForm.get('date')?.value;
-    //   user.email = this.registerForm.get('email')?.value as string;
-    //   user.password = password as string;
-    //   user.discriminator = role
-
-
-
-    //   let matricule = this.registerForm.get('club')?.value as string;
-    //   let club !: Club;
-    //   this.cs.getClubByMatricule(matricule).subscribe(data => club = data);
-    //   this.us.getPresidentByEmail(user.email).subscribe(p=>presidentExist=p);
-    //   if
-
-    //   //le club existe
-    //   if (club) {
-    //     console.log(club);
-    //     console.log("le matricule existe deja");
-
-    //     // user.club_id = club.id
-    //     let presidentClub !: President;
-
-    //     this.us.getClubPresident(club.id).subscribe(president => presidentClub = president);
-
-    //     //le club a déjà un président
-    //     if (presidentClub) {
-    //       console.log("le club a déjà un président" + presidentClub);
-    //       isPresident = true;
-    //     }
-    //     else {
-    //       console.log("le club existe mais n'a pas de president");
-
-    //       // user.club_id = club;
-
-    //       this.us.addPresident(user).subscribe();
-    //       // this.us.login(user.email, user.password);
-
-    //       this.registerForm.reset();
-    //       this.router.navigate(['login'])
-    //     }
-
-
-    //   }
-    //   //le club existe pas
-    //   else {
-
-    //     if (!isPresident) {
-    //       console.log("le club existe pas, le presi non plus ");
-
-    //       this.us.addPresident(user).subscribe();
-    //       this.us.getPresidentByEmail(user.email).subscribe(data => user = data);
-    //       // this.us.getPresidentById(2).subscribe(p=>user=p);
-    //       // this.us.login(user.email, user.password);
-    //       console.log(user);
-
-    //       this.registerForm.reset();
-    //       this.router.navigate(['create-club/', 2 + '/', matricule])
-    //       console.log(user.id);
-    //       console.log(matricule);
-
-    //       // this.router.navigate(['create-club', {
-    //       //   queryParams: {
-    //       //     'user_id': user.id,
-    //       //     'matricule': matricule
-    //       //   }
-    //       // }])
-    //     }
-    //     else
-    //       console.log("le club existe pas mais le president si");
-    //   }
-
-
-    // }
-
-
-    /*
-      Inscription du président
-      Celui-ci tape le matricule du club
-      puis ses informations
-      ----
-      -->SI le matricule existe déjà mais n'a pas de président
-          l'user devient le président de ce club 
-      -->SI le président existe déjà ERROR!
-      -->SI le club a déjà un président ERROR!
-      -->Si le club existe pas et le président non plus on enregistre le club 
-          puis on le dirige vers une vue pour créer le club avec le matricule et 
-          on associe le club au président
-    */
-
 
   }
 }

@@ -29,6 +29,7 @@ export class GestionJoueursComponent implements OnInit {
   equipesClub: Equipe[] = [];
   equipesMap = new Map<Number, Equipe>();
   user !: User;
+  affichPlayer = true;
 
   constructor(private us: UserService, private es: EquipeService,
     private fb: FormBuilder,
@@ -65,7 +66,6 @@ export class GestionJoueursComponent implements OnInit {
       .subscribe(e => {
         this.equipesClub = e
         this.initMapEquipes(this.equipesClub);
-        console.log(this.equipesMap);
       });
 
   }
@@ -77,6 +77,7 @@ export class GestionJoueursComponent implements OnInit {
   }
 
   supprimer(id: number) {
+    // this.affichPlayer=false;
     this.us.deleteJoueur(id as number)
       .pipe(
         mergeMap(() => this.us.getJoueursFromClub(this.user.club_id as number))
@@ -86,6 +87,8 @@ export class GestionJoueursComponent implements OnInit {
 
 
   editer(id: number) {
+
+    // this.affichPlayer=false;
 
     // this.activEditForm = true;
     this.id = id as number;
@@ -112,14 +115,12 @@ export class GestionJoueursComponent implements OnInit {
       joueur.nom = this.registerForm.value.nom as string;
       joueur.prenom = this.registerForm.value.prenom as string;
       joueur.naissance = this.registerForm.value.date;
-      console.log(this.registerForm.value.equipe);
 
       joueur.equipe_id = +(this.registerForm.value.equipe as number);
       joueur.role = 'joueur'
       joueur.club_id = this.club_id;
       joueur.poste = this.registerForm.get('poste')?.value as string;
       joueur.isBlesse = this.registerForm.value.isBlesse;
-      console.log(joueur.isBlesse);
 
 
       this.us.addJoueur(joueur)
@@ -130,7 +131,6 @@ export class GestionJoueursComponent implements OnInit {
         )
         .subscribe((datas) => {
           this.joueurs = datas;
-          console.log(this.equipesMap);
           this.registerForm.reset();
           this.activForm = false;
         })
@@ -157,15 +157,18 @@ export class GestionJoueursComponent implements OnInit {
         )
         .subscribe(datas => {
           this.joueurs = datas;
-          console.log(this.equipesMap);
-
           this.editForm.reset();
           this.activEditForm = false;
         })
     }
   }
-  affichPlayer(id: number) {
-    this.router.navigate(["player", id]);
+
+  afficherPlayer(id: number) {
+    if(this.affichPlayer){
+      
+      // this.affichPlayer=true;
+      this.router.navigate(["player", id]);
+    }
   }
 
 }

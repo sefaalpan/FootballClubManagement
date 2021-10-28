@@ -27,7 +27,6 @@ export class ClubComponent implements OnInit {
         this.es.getEquipesClub(c.id)
           .subscribe(e => {
             this.equipes = e;
-            console.log(e.length);
           });
       });
   }

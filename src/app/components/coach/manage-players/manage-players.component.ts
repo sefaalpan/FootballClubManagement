@@ -23,9 +23,9 @@ export class ManagePlayersComponent implements OnInit {
   id: number = -1
   joueur !: Joueur;
   coach !: Coach;
-  
+  affichPlayer = true;
 
-  constructor(private fb: FormBuilder, private editfb: FormBuilder, private router : Router,
+  constructor(private fb: FormBuilder, private editfb: FormBuilder, private router: Router,
     private us: UserService,
     private es: EquipeService) {
     this.registerForm = this.fb.group({
@@ -47,12 +47,10 @@ export class ManagePlayersComponent implements OnInit {
   ngOnInit(): void {
     this.postes = this.us.initpostes();
     this.coach = JSON.parse(sessionStorage.getItem('token') as string)
-    console.log(this.coach);
 
     this.es.getEquipeById(this.coach.equipe_id as number).subscribe(e => this.equipe = e);
     this.us.getJoueursFromEquipe(this.coach.equipe_id as number)
       .subscribe(j => {
-        console.log(j);
         this.joueurs = j
       })
 
@@ -95,7 +93,6 @@ export class ManagePlayersComponent implements OnInit {
       joueur.club_id = this.coach.club_id;
       joueur.poste = this.registerForm.get('poste')?.value as string;
       joueur.isBlesse = this.registerForm.value.isBlesse;
-      console.log(joueur.isBlesse);
 
       this.us.addJoueur(joueur)
         .pipe(
@@ -117,7 +114,7 @@ export class ManagePlayersComponent implements OnInit {
       joueur.password = this.joueur.password;
       joueur.club_id = this.joueur.club_id;
       joueur.role = this.joueur.role;
-      joueur.equipe_id =  +(this.coach.equipe_id as number)
+      joueur.equipe_id = +(this.coach.equipe_id as number)
 
       this.us.updateJoueur(this.id, joueur)
         .pipe(
@@ -131,12 +128,14 @@ export class ManagePlayersComponent implements OnInit {
         })
     }
   }
-  selection(){
+  selection() {
 
   }
 
-  affichPlayer(id : number){
-    this.router.navigate(["player", id]);
+  afficherPlayer(id: number) {
+    if (this.affichPlayer) {
+      this.router.navigate(["player", id]);
+    }
   }
 
 }

@@ -35,7 +35,6 @@ export class GestionEquipesComponent implements OnInit {
 
   ngOnInit(): void {
     this.president = JSON.parse(sessionStorage.getItem('token') as string)
-    console.log(this.president);
 
     this.es.getEquipesClub(this.president.club_id as number)
       .subscribe(e => this.equipes = e);
@@ -47,9 +46,8 @@ export class GestionEquipesComponent implements OnInit {
   editer(id: number) {
     this.es.getEquipeById(id)
       .subscribe(e => {
-        // console.log(e);
+
         this.equipe = e
-        console.log(this.equipe);
 
         this.activForm = true;
         this.editForm = true;
@@ -79,7 +77,6 @@ export class GestionEquipesComponent implements OnInit {
           )
           .subscribe(datas => {
             this.equipes = datas;
-            console.log(datas);
             this.activForm = false;
             this.editForm=false;
             this.form.reset();
@@ -94,7 +91,6 @@ export class GestionEquipesComponent implements OnInit {
             mergeMap(() => this.es.getEquipesClub(this.president.club_id as number))
           )
           .subscribe(datas => {
-            console.log(datas);
             this.equipes = datas;
             this.activForm = false;
             this.form.reset();
